@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="htmlunit">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/apidocs/com/gargoylesoftware/htmlunit" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
