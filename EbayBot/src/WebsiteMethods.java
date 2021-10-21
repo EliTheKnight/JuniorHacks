@@ -1,64 +1,83 @@
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.Page;
-import com.gargoylesoftware.htmlunit.RefreshHandler;
+import com.gargoylesoftware.htmlunit.ScriptException;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTable;
-import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
-import com.gargoylesoftware.htmlunit.javascript.host.event.KeyboardEvent;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WebsiteMethods {
 
-   // public void WebUse(){
-   public static void main(String[] args) {
-
+    public void AccessWeb(){
         try {
-            // Create and initialize WebClient object
             WebClient webClient = new WebClient(BrowserVersion.CHROME);
-            webClient.setRefreshHandler(new RefreshHandler() {
-                public void handleRefresh(Page page, URL url, int arg) throws IOException {
-                    System.out.println("handleRefresh");
+
+            webClient.getOptions().setThrowExceptionOnScriptError(false);
+            webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+            webClient.setJavaScriptErrorListener(new JavaScriptErrorListener(){
+                @Override
+                public void scriptException(HtmlPage htmlPage, ScriptException e) {
+
                 }
 
+                @Override
+                public void timeoutError(HtmlPage htmlPage, long l, long l1) {
+
+                }
+
+                @Override
+                public void malformedScriptURL(HtmlPage htmlPage, String s, MalformedURLException e) {
+
+                }
+
+                @Override
+                public void loadScriptError(HtmlPage htmlPage, URL url, Exception e) {
+
+                }
+
+                @Override
+                public void warn(String s, String s1, int i, String s2, int i1) {
+
+                }
             });
 
-            // visit Yahoo Mail login page and get the Form object
-            HtmlPage page = (HtmlPage) webClient.getPage("https://www.pokemonprice.com/");
-            HtmlForm form = page.getFormByName("Search_Bar");
+            HtmlPage page = webClient.getPage("https://www.pokemonprice.com/");
+            HtmlForm searchForm = page.getForms().get(0);
 
-            // Enter login and passwd
-            form.getInputByName("Search for a Card").setValueAttribute("@@@@@@@");
+            searchForm.getInputByName("searchterm").setValueAttribute("Pikachu");
 
-            // Click "Sign In" button/link
-            form.fireEvent(String.valueOf(KeyboardEvent.DOM_VK_RETURN));
-//            page = (HtmlPage) form.getInputByValue("Sign In").fireEvent(KeyboardEvent.DOM_VK_RETURN);
-            System.out.println(form);
-            // Click "Inbox" link
-            HtmlAnchor anchor = (HtmlAnchor) page.getHtmlElementById("WelcomeInboxFolderLink");
-            page = (HtmlPage) anchor.click();
+            HtmlButton submitButton = (HtmlButton) page.createElement("button");
+            submitButton.setAttribute("type", "submit");
+            searchForm.appendChild(submitButton);
 
-            // Get the table object containing the mails
-            HtmlTable dataTable = (HtmlTable) page.getHtmlElementById("datatable");
+            HtmlPage newPage = submitButton.click();
+//                System.out.println(newPage.getUrl());
 
-            // Go through each row and count the row with class=msgnew
-//            int newMessageCount = 0;
-//            List rows = (List) dataTable.getHtmlElementsByTagName("tr");
-//            for (HtmlTableRow row : rows) {
-//                if (row.getAttribute("class").equals("msgnew")) {
-//                    newMessageCount++;
-//                }
-//            }
+            List<DomElement> list = newPage.getByXPath("//table/tbody/tr/td/a");
+            System.out.println(list);
 
-            // Print the newMessageCount to screen
-//            System.out.println("newMessageCount = " + newMessageCount);
+            /*Autocomplete list elements*/
+//                DomElement a = page.getElementById("ui-id-1");
 
-            //System.out.println(page.asXml());
+//                System.out.println(a);
+
         }catch (Exception e){e.printStackTrace();}
     }
+
+    public ArrayList<String> sortHTMLList(List<DomElement> list){
+        ArrayList<String> output = new ArrayList<>();
+        for (DomElement i: list){
+            String item = i.toString();
+            item = item.substring(item.indexOf("href=\"") + 6, item.indexOf("\">"));
+            output.add(item);
+        }
+        return output;
+    }
+
 }

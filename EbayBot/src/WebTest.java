@@ -1,17 +1,15 @@
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.ScriptException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
-import com.gargoylesoftware.htmlunit.javascript.host.event.Event;
-import com.gargoylesoftware.htmlunit.javascript.host.event.KeyboardEvent;
-import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLListElement;
-import org.apache.xalan.xsltc.DOM;
-import org.jsoup.nodes.Element;
+import org.w3c.dom.Element;
+import org.w3c.dom.html.HTMLTableElement;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WebTest {
     public static void main(String[] args) {
@@ -48,8 +46,6 @@ public class WebTest {
                     }
                 });
 
-//                webClient.getOptions().setJavaScriptEnabled(false);
-
                 HtmlPage page = webClient.getPage("https://www.pokemonprice.com/");
                 HtmlForm searchForm = page.getForms().get(0);
 
@@ -60,10 +56,10 @@ public class WebTest {
                 searchForm.appendChild(submitButton);
 
                 HtmlPage newPage = submitButton.click();
-                System.out.println(newPage.asXml());
+//                System.out.println(newPage.getUrl());
 
-                //TODO: before I get this next element I have to return the page with my search term
-
+                List<DomElement> list = newPage.getByXPath("//table/tbody/tr/td/a");
+                System.out.println(list);
 
                 /*Autocomplete list elements*/
 //                DomElement a = page.getElementById("ui-id-1");
