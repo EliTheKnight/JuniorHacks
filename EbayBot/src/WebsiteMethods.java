@@ -7,14 +7,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
 
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class WebsiteMethods {
 
-    public void AccessWeb(){
+    public void AccessWeb(String searchTerm){
         try {
             WebClient webClient = new WebClient(BrowserVersion.CHROME);
 
@@ -50,7 +50,7 @@ public class WebsiteMethods {
             HtmlPage page = webClient.getPage("https://www.pokemonprice.com/");
             HtmlForm searchForm = page.getForms().get(0);
 
-            searchForm.getInputByName("searchterm").setValueAttribute("Pikachu");
+            searchForm.getInputByName("searchterm").setValueAttribute(searchTerm);
 
             HtmlButton submitButton = (HtmlButton) page.createElement("button");
             submitButton.setAttribute("type", "submit");
@@ -62,10 +62,6 @@ public class WebsiteMethods {
             List<DomElement> list = newPage.getByXPath("//table/tbody/tr/td/a");
             System.out.println(list);
 
-            /*Autocomplete list elements*/
-//                DomElement a = page.getElementById("ui-id-1");
-
-//                System.out.println(a);
 
         }catch (Exception e){e.printStackTrace();}
     }
@@ -78,6 +74,67 @@ public class WebsiteMethods {
             output.add(item);
         }
         return output;
+    }
+
+    public ArrayList<String> fileToList(String filename){
+        ArrayList<String> output = new ArrayList();
+        try {
+            Scanner reader = new Scanner(new File(filename + ".txt"));
+            while (reader.hasNextLine()){
+                String line = reader.nextLine().toLowerCase();
+                output.add(line);
+            }
+        }catch (Exception e){e.printStackTrace();}
+        return output;
+    }
+
+    public void findSearchWords(String list, ArrayList<String> list1, ArrayList<String> list2){
+        try {
+            Scanner reader = new Scanner(new File(list + ".txt"));
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("searchTerms.txt"), "utf-8"));
+            ArrayList<String> searchTerms = new ArrayList<>();
+
+
+            while (reader.hasNextLine()){
+                String line = reader.nextLine();
+                ArrayList<String> words = new ArrayList<>();
+                String search = "";
+                while (line.contains(" ")){
+                    int start = line.indexOf(" ");
+                    words.add(line.substring(0, start));
+                    line = line.substring(start+1);
+                }
+//                    for (String word: words) {
+//                        if (list1.contains(word.toLowerCase()) || list2.contains(word.toLowerCase())){
+//                            search = search + " " + word;
+//                        }
+//                    }
+                    for (int i = 0; i<words.size(); i++){
+                        String word = words.get(i);
+                        if (i<words.size()-1) {
+                            word = words.get(i) + " " + words.get(i + 1);
+                        }
+                        if ((list1.contains(word.toLowerCase()) || list2.contains(word.toLowerCase())) && word.contains(" ")){
+                            search = search + " " + word;
+                        }
+                        else if ((list1.contains(words.get(i).toLowerCase()) || list2.contains(words.get(i).toLowerCase()))) {
+                            search = search + " " + words.get(i);
+                        }
+
+                        if (words.get(i).equalsIgnoreCase("holo") || words.get(i).equalsIgnoreCase("1st")){
+                            search = search + " " + words.get(i);
+                        }
+                    }
+                searchTerms.add(search);
+                words.clear();
+            }
+
+            for (String a: searchTerms){
+                writer.write(a + "\n");
+            }
+            writer.close();
+
+        }catch (Exception e){e.printStackTrace();}
     }
 
 }

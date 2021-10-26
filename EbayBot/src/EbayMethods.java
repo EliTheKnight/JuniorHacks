@@ -8,7 +8,7 @@ public class EbayMethods {
 
     public void SortItems(File file, Document document, String start, int startLength, String end, String fileName) {
         try {
-            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName + ".txt"), "utf-8"));
             Document doc = document;
             if (document.equals(null)){doc = Jsoup.parse(file, "utf-8");}
             int i = 0;
@@ -40,7 +40,7 @@ public class EbayMethods {
         try {
             Document doc = Jsoup.connect(url).get();
             Element a = doc.body();
-            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName + ".txt"), "utf-8"));
             writer.write(a.toString());
 
 //            System.out.println(a.getElementsByAttributeStarting("class=\"s-item__title\">"));
@@ -562,7 +562,7 @@ public class EbayMethods {
             thread8.start();
 
             while (thread1.isAlive() && thread2.isAlive() && thread3.isAlive() && thread4.isAlive() && thread5.isAlive() && thread6.isAlive() && thread7.isAlive() && thread8.isAlive()) {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }
 
             Compile("cost");
