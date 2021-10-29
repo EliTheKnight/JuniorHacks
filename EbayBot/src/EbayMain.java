@@ -29,10 +29,12 @@ public class EbayMain {
                try {
                    ArrayList<String> cardList = access.fileToList("cardList");
                    ArrayList<String> setList = access.fileToList("Sets");
+
                    access.findSearchWords("list", cardList, setList);
+
                }catch (Exception e){e.printStackTrace();}
            });
-//            access.AccessWeb();
+
             webRun.start();
 
         }catch (Exception e){e.printStackTrace();}

@@ -14,7 +14,9 @@ import java.util.*;
 
 public class WebsiteMethods {
 
-    public void AccessWeb(String searchTerm){
+    public String AccessWeb(String searchTerm){
+        ArrayList<String> cardList = new ArrayList<>();
+        String foundCard = "";
         try {
             WebClient webClient = new WebClient(BrowserVersion.CHROME);
 
@@ -57,11 +59,71 @@ public class WebsiteMethods {
             searchForm.appendChild(submitButton);
 
             HtmlPage newPage = submitButton.click();
-//                System.out.println(newPage.getUrl());
 
             List<DomElement> list = newPage.getByXPath("//table/tbody/tr/td/a");
-            System.out.println(list);
 
+            for (DomElement a: list){
+                cardList.add(a.toString());
+            }
+
+            foundCard = list.get(0).toString();
+
+        }catch (Exception e){e.printStackTrace();}
+
+        return foundCard;
+    }
+
+    public void AccessFoundCard(String cardUrl){
+        try {
+            WebClient webClient = new WebClient(BrowserVersion.CHROME);
+
+            webClient.getOptions().setThrowExceptionOnScriptError(false);
+            webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+            webClient.setJavaScriptErrorListener(new JavaScriptErrorListener() {
+                @Override
+                public void scriptException(HtmlPage htmlPage, ScriptException e) {
+
+                }
+
+                @Override
+                public void timeoutError(HtmlPage htmlPage, long l, long l1) {
+
+                }
+
+                @Override
+                public void malformedScriptURL(HtmlPage htmlPage, String s, MalformedURLException e) {
+
+                }
+
+                @Override
+                public void loadScriptError(HtmlPage htmlPage, URL url, Exception e) {
+
+                }
+
+                @Override
+                public void warn(String s, String s1, int i, String s2, int i1) {
+
+                }
+            });
+
+            HtmlPage page = webClient.getPage("https://www.pokemonprice.com" + cardUrl);
+
+            DomElement listSize = page.getElementById("prices_length");
+            List<DomElement> list = page.getByXPath("//table/tbody");
+
+        }catch (Exception e){e.printStackTrace();}
+    }
+
+    public void SearchItems(String filename){
+        try {
+            Scanner reader = new Scanner(new File(filename + ".txt"));
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("psaPrices.txt"), "utf-8"));
+            ArrayList<ArrayList<String>> listByGrade = new ArrayList<>();
+            while(reader.hasNextLine()){
+                String line = reader.nextLine();
+                String cardUrl = AccessWeb(line);
+                AccessFoundCard(cardUrl);
+            }
 
         }catch (Exception e){e.printStackTrace();}
     }
@@ -92,11 +154,13 @@ public class WebsiteMethods {
         try {
             Scanner reader = new Scanner(new File(list + ".txt"));
             Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("searchTerms.txt"), "utf-8"));
+            Writer writer2 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("grades.txt"), "utf-8"));
             ArrayList<String> searchTerms = new ArrayList<>();
-
+            ArrayList<Integer> grades = new ArrayList<>();
 
             while (reader.hasNextLine()){
                 String line = reader.nextLine();
+                String copy = line;
                 ArrayList<String> words = new ArrayList<>();
                 String search = "";
                 while (line.contains(" ")){
@@ -127,12 +191,40 @@ public class WebsiteMethods {
                     }
                 searchTerms.add(search);
                 words.clear();
+                int i = 0;
+                if (copy.toLowerCase().contains(" psa") && copy.indexOf(" psa") <= copy.length()-1){
+                    boolean findNum = true;
+                    while (findNum) {
+                        int grade = -1;
+
+                        int start = copy.toLowerCase().indexOf(" psa");
+                        Character a = copy.charAt(start + i);
+                        if (Character.isDigit(a)){
+                            grade = (int) a - 48;
+                            if (grade == 1)
+                                grade = 10;
+                            grades.add(grade);
+                            break;
+                        }
+                        else if (start + i + 1 < copy.length()){
+                            i++;
+                        }
+                        else {
+                            grades.add(grade);
+                            break; }
+                    }
+
+                } else {grades.add(-1);}
             }
 
             for (String a: searchTerms){
                 writer.write(a + "\n");
             }
             writer.close();
+            for (Integer b: grades){
+                writer2.write(b + "\n");
+            }
+            writer2.close();
 
         }catch (Exception e){e.printStackTrace();}
     }
