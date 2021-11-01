@@ -268,8 +268,12 @@ public class WebsiteMethods {
                         Character a = copy.charAt(start + i);
                         if (Character.isDigit(a)){
                             grade = (int) a - 48;
-                            if (grade == 1)
-                                grade = 10;
+                            if (grade == 1) {
+                                if (Character.compare(copy.charAt(start + i + 1),'0') == 0)
+                                    grade = 10;
+                                else
+                                    grade = -1;
+                            }
                             grades.add(grade);
                             break;
                         }
