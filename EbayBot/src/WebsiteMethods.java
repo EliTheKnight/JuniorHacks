@@ -8,6 +8,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -106,19 +107,85 @@ public class WebsiteMethods {
                 }
             });
 
-            HtmlPage page = webClient.getPage("https://www.pokemonprice.com" + cardUrl);
+            HtmlPage page = webClient.getPage("https://www.pokemonprice.com/CardDetails/b5dc5bb2-b04b-4b97-95c4-0bc2238c0a8e/pikachu-1st-edition");
 
-            DomElement listSize = page.getElementById("prices_length");
-            List<DomElement> list = page.getByXPath("//table/tbody");
+
+//            List<DomElement> list = page.getByXPath("//table/tbody/tr");
+//            System.out.println(list.get(0));
+//            System.out.println(list.size());
+
+            String pageAsXml = page.asXml();
+            String table = pageAsXml.substring(pageAsXml.indexOf("<tbody>"), pageAsXml.indexOf("</tbody>"));
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("cardTable.txt"), "utf-8"));
+            writer.write(table);
+            writer.close();
+
+            formatCardTable("cardTable");
 
         }catch (Exception e){e.printStackTrace();}
+    }
+
+    public String[][] formatCardTable(String filename){
+        int size = 100;
+        String[][] cardInfo = new String[size][3];
+        try {
+            Scanner reader = new Scanner(new File("cardTable.txt"));
+            for (int item = 0; item < size; item++) {
+                if (reader.nextLine().contains("<tr>")) {
+                    String a = reader.nextLine();
+                    String b = reader.nextLine();
+                    String c = reader.nextLine();
+                    String d = reader.nextLine();
+                    String e = reader.nextLine();
+                    String f = reader.nextLine();
+                    String g = reader.nextLine();
+                    String h = reader.nextLine();
+                    String i = reader.nextLine();
+                    String j = reader.nextLine();
+                    String k = reader.nextLine();
+                    String l = reader.nextLine();
+                    String m = reader.nextLine();
+                    String n = reader.nextLine();
+                    String o = reader.nextLine();
+                    String p = reader.nextLine();
+                    String q = reader.nextLine();
+                    String r = reader.nextLine();
+                    String s = reader.nextLine();
+                    String t = reader.nextLine();
+                    String u = reader.nextLine();
+                    String v = reader.nextLine();
+                    String w = reader.nextLine();
+                    String x = reader.nextLine();
+                    String y = reader.nextLine();
+                    String z = reader.nextLine();
+                    String aa = reader.nextLine();
+                    String ab = reader.nextLine();
+                    String ac = reader.nextLine();
+                    String ad = reader.nextLine();
+                    String ae = reader.nextLine();
+                    String af = reader.nextLine();
+
+                    c = c.substring(44);
+                    h = h.substring(44);
+                    l = l.substring(23);
+                    cardInfo[item][0] = c;
+                    cardInfo[item][1] = h;
+                    cardInfo[item][2] = l;
+                    // c is date            h is grade              l is price
+                }
+            }
+            for (String[] row: cardInfo){
+                System.out.println("[" + row[0] + ", " + row[1] + ", " + row[2] + "]");
+            }
+        }catch (Exception e){e.printStackTrace();}
+        return cardInfo;
     }
 
     public void SearchItems(String filename){
         try {
             Scanner reader = new Scanner(new File(filename + ".txt"));
             Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("psaPrices.txt"), "utf-8"));
-            ArrayList<ArrayList<String>> listByGrade = new ArrayList<>();
+            Array[] list = new Array[100];
             while(reader.hasNextLine()){
                 String line = reader.nextLine();
                 String cardUrl = AccessWeb(line);

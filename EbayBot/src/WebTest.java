@@ -17,54 +17,11 @@ public class WebTest {
     public static void main(String[] args) {
 
         try {
-            WebClient webClient = new WebClient(BrowserVersion.CHROME);
-
-            webClient.getOptions().setThrowExceptionOnScriptError(false);
-            webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-            webClient.setJavaScriptErrorListener(new JavaScriptErrorListener() {
-                @Override
-                public void scriptException(HtmlPage htmlPage, ScriptException e) {
-
-                }
-
-                @Override
-                public void timeoutError(HtmlPage htmlPage, long l, long l1) {
-
-                }
-
-                @Override
-                public void malformedScriptURL(HtmlPage htmlPage, String s, MalformedURLException e) {
-
-                }
-
-                @Override
-                public void loadScriptError(HtmlPage htmlPage, URL url, Exception e) {
-
-                }
-
-                @Override
-                public void warn(String s, String s1, int i, String s2, int i1) {
-
-                }
-            });
-
-            HtmlPage page = webClient.getPage("https://www.pokemonprice.com/CardDetails/b5dc5bb2-b04b-4b97-95c4-0bc2238c0a8e/pikachu-1st-edition");
-
-
-//            List<DomElement> list = page.getByXPath("//table/tbody/tr");
-//            System.out.println(list.get(0));
-//            System.out.println(list.size());
-
-            String pageAsXml = page.asXml();
-            String table = pageAsXml.substring(pageAsXml.indexOf("<tbody>"), pageAsXml.indexOf("</tbody>"));
-            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("cardTable.txt"), "utf-8"));
-            writer.write(table);
-            writer.close();
-            Scanner reader = new Scanner(new File( "cardTable.txt"));
-
-            String[][] cardInfo = new String[100][3];
-            for (int item = 0; item<100; item++){
-                if (reader.nextLine().contains("<tr>")){
+            Scanner reader = new Scanner(new File("cardTable.txt"));
+            int size = 100;
+            String[][] cardInfo = new String[size][3];
+            for (int item = 0; item < size; item++) {
+                if (reader.nextLine().contains("<tr>")) {
                     String a = reader.nextLine();
                     String b = reader.nextLine();
                     String c = reader.nextLine();
@@ -97,10 +54,19 @@ public class WebTest {
                     String ad = reader.nextLine();
                     String ae = reader.nextLine();
                     String af = reader.nextLine();
-                    System.out.println(a + "\n" + b+ "\n" + c+ "\n" + d+ "\n" + e+ "\n" + f+ "\n" + g+ "\n" + h+ "\n" + i+ "\n" + j+ "\n" + k+ "\n" + l+ "\n" + m+ "\n" + n+ "\n" + o+ "\n" + p+ "\n" + q+ "\n" + r+ "\n" + s+ "\n" + t+ "\n" + u+ "\n" + v+ "\n" + w+ "\n" + x+ "\n" + y+ "\n" + z+ "\n" + aa+ "\n" + ab+ "\n" + ac+ "\n" + ad+ "\n" + ae+ "\n" + af+ "\n");
+
+                    c = c.substring(44);
+                    h = h.substring(44);
+                    l = l.substring(23);
+                    cardInfo[item][0] = c;
+                    cardInfo[item][1] = h;
+                    cardInfo[item][2] = l;
+                    // c is date            h is grade              l is price
                 }
             }
-
+            for (String[] row: cardInfo){
+                    System.out.println("[" + row[0] + ", " + row[1] + ", " + row[2] + "]");
+            }
         }catch (Exception e){e.printStackTrace();}
     }
 }
