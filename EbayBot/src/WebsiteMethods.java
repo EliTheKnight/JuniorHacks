@@ -23,6 +23,7 @@ public class WebsiteMethods {
 
             webClient.getOptions().setThrowExceptionOnScriptError(false);
             webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+            webClient.getOptions().setJavaScriptEnabled(false);
             webClient.setJavaScriptErrorListener(new JavaScriptErrorListener(){
                 @Override
                 public void scriptException(HtmlPage htmlPage, ScriptException e) {
@@ -74,12 +75,14 @@ public class WebsiteMethods {
         return foundCard;
     }
 
-    public void AccessFoundCard(String cardUrl){
+    public String[][] AccessFoundCard(String cardUrl){
+        ArrayList<String> cardTable = new ArrayList<>();
         try {
             WebClient webClient = new WebClient(BrowserVersion.CHROME);
 
             webClient.getOptions().setThrowExceptionOnScriptError(false);
             webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+            webClient.getOptions().setJavaScriptEnabled(false);
             webClient.setJavaScriptErrorListener(new JavaScriptErrorListener() {
                 @Override
                 public void scriptException(HtmlPage htmlPage, ScriptException e) {
@@ -116,54 +119,58 @@ public class WebsiteMethods {
 
             String pageAsXml = page.asXml();
             String table = pageAsXml.substring(pageAsXml.indexOf("<tbody>"), pageAsXml.indexOf("</tbody>"));
-            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("cardTable.txt"), "utf-8"));
-            writer.write(table);
-            writer.close();
 
-            formatCardTable("cardTable");
+            while (table.contains("\n")){
+                String line = table.substring(0,table.indexOf("\n"));
+                cardTable.add(line);
+                table = table.substring(0,table.indexOf("\n"));
+            }
 
         }catch (Exception e){e.printStackTrace();}
+
+        String[][] output = formatCardTable(cardTable);
+        return output;
+
     }
 
-    public String[][] formatCardTable(String filename){
+    public String[][] formatCardTable(ArrayList<String> table){
         int size = 100;
         String[][] cardInfo = new String[size][3];
         try {
-            Scanner reader = new Scanner(new File("cardTable.txt"));
-            for (int item = 0; item < size; item++) {
-                if (reader.nextLine().contains("<tr>")) {
-                    String a = reader.nextLine();
-                    String b = reader.nextLine();
-                    String c = reader.nextLine();
-                    String d = reader.nextLine();
-                    String e = reader.nextLine();
-                    String f = reader.nextLine();
-                    String g = reader.nextLine();
-                    String h = reader.nextLine();
-                    String i = reader.nextLine();
-                    String j = reader.nextLine();
-                    String k = reader.nextLine();
-                    String l = reader.nextLine();
-                    String m = reader.nextLine();
-                    String n = reader.nextLine();
-                    String o = reader.nextLine();
-                    String p = reader.nextLine();
-                    String q = reader.nextLine();
-                    String r = reader.nextLine();
-                    String s = reader.nextLine();
-                    String t = reader.nextLine();
-                    String u = reader.nextLine();
-                    String v = reader.nextLine();
-                    String w = reader.nextLine();
-                    String x = reader.nextLine();
-                    String y = reader.nextLine();
-                    String z = reader.nextLine();
-                    String aa = reader.nextLine();
-                    String ab = reader.nextLine();
-                    String ac = reader.nextLine();
-                    String ad = reader.nextLine();
-                    String ae = reader.nextLine();
-                    String af = reader.nextLine();
+            for (int item = 0; item < table.size()-50; item++) {
+                if (table.get(item).contains("<tr>")) {
+                    String a = table.get(item);
+                    String b = table.get(item+1);
+                    String c = table.get(item+2);
+                    String d = table.get(item+3);
+                    String e = table.get(item+4);
+                    String f = table.get(item+5);
+                    String g = table.get(item+6);
+                    String h = table.get(item+7);
+                    String i = table.get(item+8);
+                    String j = table.get(item+9);
+                    String k = table.get(item+10);
+                    String l = table.get(item+11);
+                    String m = table.get(item+12);
+                    String n = table.get(item+13);
+                    String o = table.get(item+14);
+                    String p = table.get(item+15);
+                    String q = table.get(item+16);
+                    String r = table.get(item+17);
+                    String s = table.get(item+18);
+                    String t = table.get(item+19);
+                    String u = table.get(item+20);
+                    String v = table.get(item+21);
+                    String w = table.get(item+22);
+                    String x = table.get(item+23);
+                    String y = table.get(item+24);
+                    String z = table.get(item+25);
+                    String aa = table.get(item+26);
+                    String ab = table.get(item+27);
+                    String ac = table.get(item+28);
+                    String ad = table.get(item+29);
+                    String ae = table.get(item+30);
+                    String af = table.get(item+31);
 
                     c = c.substring(44);
                     h = h.substring(44);
@@ -174,25 +181,147 @@ public class WebsiteMethods {
                     // c is date            h is grade              l is price
                 }
             }
-            for (String[] row: cardInfo){
-                System.out.println("[" + row[0] + ", " + row[1] + ", " + row[2] + "]");
-            }
+//            for (String[] row: cardInfo){
+//                System.out.println("[" + row[0] + ", " + row[1] + ", " + row[2] + "]");
+//            }
         }catch (Exception e){e.printStackTrace();}
         return cardInfo;
     }
 
-    public void SearchItems(String filename){
+    public ArrayList<String[][]> SearchItems(ArrayList<String> searchterms){
+        ArrayList<String[][]> list = new ArrayList<>(200);
         try {
-            Scanner reader = new Scanner(new File(filename + ".txt"));
             Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("psaPrices.txt"), "utf-8"));
-            Array[] list = new Array[100];
-            while(reader.hasNextLine()){
-                String line = reader.nextLine();
-                String cardUrl = AccessWeb(line);
-                AccessFoundCard(cardUrl);
-            }
+            int interval = 20;
+            Thread thread1 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(0); i<interval*1; i++){
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
 
+                }catch (Exception e){e.printStackTrace();}
+            });
+            Thread thread2 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(1); i<interval*2; i++){
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
+
+                }catch (Exception e){e.printStackTrace();}
+            });
+            Thread thread3 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(2); i<interval*3; i++){
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
+
+                }catch (Exception e){e.printStackTrace();}
+            });
+            Thread thread4 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(3); i<interval*4; i++){
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
+
+                }catch (Exception e){e.printStackTrace();}
+            });
+            Thread thread5 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(4); i<interval*5; i++){
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
+
+                }catch (Exception e){e.printStackTrace();}
+            });
+            Thread thread6 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(5); i<interval*6; i++){
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
+
+                }catch (Exception e){e.printStackTrace();}
+            });
+            Thread thread7 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(6); i<interval*7; i++){
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
+
+                }catch (Exception e){e.printStackTrace();}
+            });
+            Thread thread8 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(7); i<interval*8; i++){
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
+
+                }catch (Exception e){e.printStackTrace();}
+            });
+            Thread thread9 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(8); i<interval*9; i++){
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
+
+                }catch (Exception e){e.printStackTrace();}
+            });
+            Thread thread10 = new Thread(() -> {
+                try{
+                    for (int i = (interval)*(9); i<interval*10; i++){
+                        if (searchterms.get(i).equals(null)){
+                            break;
+                        }
+                        String search = searchterms.get(i);
+                        String cardUrl = AccessWeb(search);
+                        String[][] found= AccessFoundCard(cardUrl);
+                        list.set(i, found);
+                    }
+
+                }catch (Exception e){e.printStackTrace();}
+            });
+            thread1.start();
+            thread2.start();
+            thread3.start();
+            thread4.start();
+            thread5.start();
+            thread6.start();
+            thread7.start();
+            thread8.start();
+            thread9.start();
+            thread10.start();
+
+            while (thread1.isAlive()||thread2.isAlive()||thread3.isAlive()||thread4.isAlive()||thread5.isAlive()||thread6.isAlive()||thread7.isAlive()||thread8.isAlive()||thread9.isAlive()||thread10.isAlive()){
+                Thread.sleep(500);
+            }
         }catch (Exception e){e.printStackTrace();}
+        return list;
     }
 
     public ArrayList<String> sortHTMLList(List<DomElement> list){

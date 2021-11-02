@@ -15,58 +15,67 @@ import java.util.Scanner;
 
 public class WebTest {
     public static void main(String[] args) {
-
+        long startTime = System.currentTimeMillis();
+        ArrayList<String> cardList = new ArrayList<>();
+        String foundCard = "";
         try {
-            Scanner reader = new Scanner(new File("cardTable.txt"));
-            int size = 100;
-            String[][] cardInfo = new String[size][3];
-            for (int item = 0; item < size; item++) {
-                if (reader.nextLine().contains("<tr>")) {
-                    String a = reader.nextLine();
-                    String b = reader.nextLine();
-                    String c = reader.nextLine();
-                    String d = reader.nextLine();
-                    String e = reader.nextLine();
-                    String f = reader.nextLine();
-                    String g = reader.nextLine();
-                    String h = reader.nextLine();
-                    String i = reader.nextLine();
-                    String j = reader.nextLine();
-                    String k = reader.nextLine();
-                    String l = reader.nextLine();
-                    String m = reader.nextLine();
-                    String n = reader.nextLine();
-                    String o = reader.nextLine();
-                    String p = reader.nextLine();
-                    String q = reader.nextLine();
-                    String r = reader.nextLine();
-                    String s = reader.nextLine();
-                    String t = reader.nextLine();
-                    String u = reader.nextLine();
-                    String v = reader.nextLine();
-                    String w = reader.nextLine();
-                    String x = reader.nextLine();
-                    String y = reader.nextLine();
-                    String z = reader.nextLine();
-                    String aa = reader.nextLine();
-                    String ab = reader.nextLine();
-                    String ac = reader.nextLine();
-                    String ad = reader.nextLine();
-                    String ae = reader.nextLine();
-                    String af = reader.nextLine();
+            WebClient webClient = new WebClient(BrowserVersion.CHROME);
 
-                    c = c.substring(44);
-                    h = h.substring(44);
-                    l = l.substring(23);
-                    cardInfo[item][0] = c;
-                    cardInfo[item][1] = h;
-                    cardInfo[item][2] = l;
-                    // c is date            h is grade              l is price
+            webClient.getOptions().setThrowExceptionOnScriptError(false);
+            webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+            webClient.getOptions().setJavaScriptEnabled(false);
+            webClient.setJavaScriptErrorListener(new JavaScriptErrorListener(){
+                @Override
+                public void scriptException(HtmlPage htmlPage, ScriptException e) {
+
                 }
+
+                @Override
+                public void timeoutError(HtmlPage htmlPage, long l, long l1) {
+
+                }
+
+                @Override
+                public void malformedScriptURL(HtmlPage htmlPage, String s, MalformedURLException e) {
+
+                }
+
+                @Override
+                public void loadScriptError(HtmlPage htmlPage, URL url, Exception e) {
+
+                }
+
+                @Override
+                public void warn(String s, String s1, int i, String s2, int i1) {
+
+                }
+            });
+
+            HtmlPage page = webClient.getPage("https://www.pokemonprice.com/");
+            HtmlForm searchForm = page.getForms().get(0);
+
+            searchForm.getInputByName("searchterm").setValueAttribute("Pikachu");
+
+            HtmlButton submitButton = (HtmlButton) page.createElement("button");
+            submitButton.setAttribute("type", "submit");
+            searchForm.appendChild(submitButton);
+
+            HtmlPage newPage = submitButton.click();
+
+            List<DomElement> list = newPage.getByXPath("//table/tbody/tr/td/a");
+
+            for (DomElement a: list){
+                cardList.add(a.toString());
             }
-            for (String[] row: cardInfo){
-                    System.out.println("[" + row[0] + ", " + row[1] + ", " + row[2] + "]");
-            }
+
+            foundCard = list.get(0).toString();
+
         }catch (Exception e){e.printStackTrace();}
+
+        long endTime = System.currentTimeMillis();
+
+        long duration = (endTime - startTime);
+        System.out.println(duration);
+
     }
 }

@@ -29,8 +29,8 @@ public class EbayMethods {
                     if (i>198){writer.close();}
                     else {writer.write(output + "\n");}
                     i++;
-                    System.out.println(i);
             }
+            System.out.println(i);
 
         } catch (Exception e) {e.printStackTrace();}
     }
