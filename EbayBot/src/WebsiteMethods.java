@@ -8,7 +8,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -24,6 +23,7 @@ public class WebsiteMethods {
             webClient.getOptions().setThrowExceptionOnScriptError(false);
             webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
             webClient.getOptions().setJavaScriptEnabled(false);
+            webClient.getOptions().setCssEnabled(false);
             webClient.setJavaScriptErrorListener(new JavaScriptErrorListener(){
                 @Override
                 public void scriptException(HtmlPage htmlPage, ScriptException e) {
@@ -63,14 +63,19 @@ public class WebsiteMethods {
             HtmlPage newPage = submitButton.click();
 
             List<DomElement> list = newPage.getByXPath("//table/tbody/tr/td/a");
-
+            webClient.close();
             for (DomElement a: list){
                 cardList.add(a.toString());
             }
 
-            foundCard = list.get(0).toString();
+            if (list.size()>0) {
+                foundCard = list.get(0).toString();
+            }
 
         }catch (Exception e){e.printStackTrace();}
+        if (foundCard.length()>1) {
+            foundCard = foundCard.substring(foundCard.indexOf("/Ca"), foundCard.indexOf("\">]"));
+        }
 
         return foundCard;
     }
@@ -83,6 +88,7 @@ public class WebsiteMethods {
             webClient.getOptions().setThrowExceptionOnScriptError(false);
             webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
             webClient.getOptions().setJavaScriptEnabled(false);
+            webClient.getOptions().setCssEnabled(false);
             webClient.setJavaScriptErrorListener(new JavaScriptErrorListener() {
                 @Override
                 public void scriptException(HtmlPage htmlPage, ScriptException e) {
@@ -110,20 +116,18 @@ public class WebsiteMethods {
                 }
             });
 
-            HtmlPage page = webClient.getPage("https://www.pokemonprice.com/CardDetails/b5dc5bb2-b04b-4b97-95c4-0bc2238c0a8e/pikachu-1st-edition");
-
-
-//            List<DomElement> list = page.getByXPath("//table/tbody/tr");
-//            System.out.println(list.get(0));
-//            System.out.println(list.size());
+            HtmlPage page = webClient.getPage("https://www.pokemonprice.com" + cardUrl);
 
             String pageAsXml = page.asXml();
-            String table = pageAsXml.substring(pageAsXml.indexOf("<tbody>"), pageAsXml.indexOf("</tbody>"));
-
+            String table = "";
+            if (pageAsXml.contains("<tbody>")) {
+                table = pageAsXml.substring(pageAsXml.indexOf("<tbody>"), pageAsXml.indexOf("</tbody>"));
+            }
+            webClient.close();
             while (table.contains("\n")){
                 String line = table.substring(0,table.indexOf("\n"));
                 cardTable.add(line);
-                table = table.substring(0,table.indexOf("\n"));
+                table = table.substring(table.indexOf("\n")+1);
             }
 
         }catch (Exception e){e.printStackTrace();}
@@ -134,43 +138,17 @@ public class WebsiteMethods {
     }
 
     public String[][] formatCardTable(ArrayList<String> table){
+        if (table.size()<=0){
+            return null;
+        }
         int size = 100;
         String[][] cardInfo = new String[size][3];
         try {
-            for (int item = 0; item < table.size()-50; item++) {
+            for (int item = 0; item < table.size()-15 && item<100; item++) {
                 if (table.get(item).contains("<tr>")) {
-                    String a = table.get(item);
-                    String b = table.get(item+1);
-                    String c = table.get(item+2);
-                    String d = table.get(item+3);
-                    String e = table.get(item+4);
-                    String f = table.get(item+5);
-                    String g = table.get(item+6);
-                    String h = table.get(item+7);
-                    String i = table.get(item+8);
-                    String j = table.get(item+9);
-                    String k = table.get(item+10);
-                    String l = table.get(item+11);
-                    String m = table.get(item+12);
-                    String n = table.get(item+13);
-                    String o = table.get(item+14);
-                    String p = table.get(item+15);
-                    String q = table.get(item+16);
-                    String r = table.get(item+17);
-                    String s = table.get(item+18);
-                    String t = table.get(item+19);
-                    String u = table.get(item+20);
-                    String v = table.get(item+21);
-                    String w = table.get(item+22);
-                    String x = table.get(item+23);
-                    String y = table.get(item+24);
-                    String z = table.get(item+25);
-                    String aa = table.get(item+26);
-                    String ab = table.get(item+27);
-                    String ac = table.get(item+28);
-                    String ad = table.get(item+29);
-                    String ae = table.get(item+30);
-                    String af = table.get(item+31);
+                    String c = table.get(item+3);
+                    String h = table.get(item+8);
+                    String l = table.get(item+12);
 
                     c = c.substring(44);
                     h = h.substring(44);
@@ -178,18 +156,24 @@ public class WebsiteMethods {
                     cardInfo[item][0] = c;
                     cardInfo[item][1] = h;
                     cardInfo[item][2] = l;
-                    // c is date            h is grade              l is price
+                    // c is date           h is grade             l is price
+                }
+                else{
+                    table.remove(item);
+                    item--;
                 }
             }
-//            for (String[] row: cardInfo){
-//                System.out.println("[" + row[0] + ", " + row[1] + ", " + row[2] + "]");
-//            }
+
         }catch (Exception e){e.printStackTrace();}
+
         return cardInfo;
     }
 
     public ArrayList<String[][]> SearchItems(ArrayList<String> searchterms){
-        ArrayList<String[][]> list = new ArrayList<>(200);
+        ArrayList<String[][]> list = new ArrayList<>();
+        for (int i = 0; i<200; i++){
+            list.add(null);
+        }
         try {
             Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("psaPrices.txt"), "utf-8"));
             int interval = 20;
@@ -294,10 +278,7 @@ public class WebsiteMethods {
             });
             Thread thread10 = new Thread(() -> {
                 try{
-                    for (int i = (interval)*(9); i<interval*10; i++){
-                        if (searchterms.get(i).equals(null)){
-                            break;
-                        }
+                    for (int i = (interval)*(9); i<interval*10-1; i++){
                         String search = searchterms.get(i);
                         String cardUrl = AccessWeb(search);
                         String[][] found= AccessFoundCard(cardUrl);
@@ -320,6 +301,27 @@ public class WebsiteMethods {
             while (thread1.isAlive()||thread2.isAlive()||thread3.isAlive()||thread4.isAlive()||thread5.isAlive()||thread6.isAlive()||thread7.isAlive()||thread8.isAlive()||thread9.isAlive()||thread10.isAlive()){
                 Thread.sleep(500);
             }
+            System.out.println("end write");
+            String[][] placeholder = new String[0][0];
+            for(int i = 0; i< list.size(); i++){
+                try {if (!list.get(i).equals(null)){continue;}}
+                catch (Exception e){list.set(i, placeholder);}
+            }
+
+            for (String[][] array2D: list){
+                writer.write("[");
+                for (String[] array: array2D){
+                    String last = array[2];
+                    if (last==null){}
+                    else {
+                        last = last.substring(0, last.length() - 1);
+                    }
+                    writer.write("(" + array[0] +  ", " + array[1] + ", " + last + ")\n");
+                }
+                writer.write("]\n\n\n");
+            }
+
+            writer.close();
         }catch (Exception e){e.printStackTrace();}
         return list;
     }
