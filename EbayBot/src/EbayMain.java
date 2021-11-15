@@ -16,9 +16,8 @@ public class EbayMain {
 
            ebay.SortItems(null, document, "\" _sp=\"p2351460.m1686.l7400\" class=\"s-item__link\" href=\"", 56, "\"><h3 class", "urls");
 
-           ebay.ItemInfo("itemprop=\"price\" content=\"", 26, "\">");
+           ebay.ItemInfo("itemprop=\"price\" content=\"", 26, "\">", access.fileToList("urls"));
 
-           ebay.Compile("cost");
            System.out.println("ebay Check");
            ArrayList<String> cardList = access.fileToList("cardList");
            ArrayList<String> setList = access.fileToList("Sets");

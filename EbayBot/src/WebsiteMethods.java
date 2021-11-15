@@ -170,6 +170,7 @@ public class WebsiteMethods {
     }
 
     public ArrayList<String[][]> SearchItems(ArrayList<String> searchterms){
+        if (searchterms.size() < 2){return null;}
         ArrayList<String[][]> list = new ArrayList<>();
         for (int i = 0; i<200; i++){
             list.add(null);
@@ -287,6 +288,7 @@ public class WebsiteMethods {
 
                 }catch (Exception e){e.printStackTrace();}
             });
+
             thread1.start();
             thread2.start();
             thread3.start();
@@ -316,9 +318,9 @@ public class WebsiteMethods {
                     else {
                         last = last.substring(0, last.length() - 1);
                     }
-                    writer.write("(" + array[0] +  ", " + array[1] + ", " + last + ")\n");
+                    writer.write("(" + array[0] +  ", " + array[1] + ", " + last + ")");
                 }
-                writer.write("]\n\n\n");
+                writer.write("]\n");
             }
 
             writer.close();
@@ -400,7 +402,7 @@ public class WebsiteMethods {
                         if (Character.isDigit(a)){
                             grade = (int) a - 48;
                             if (grade == 1) {
-                                if (Character.compare(copy.charAt(start + i + 1),'0') == 0)
+                                if (copy.length() > start+i+1 && copy.charAt(start + i + 1) == '0')
                                     grade = 10;
                                 else
                                     grade = -1;
