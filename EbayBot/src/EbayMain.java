@@ -9,6 +9,7 @@ public class EbayMain {
        try {
            EbayMethods ebay = new EbayMethods();
            WebsiteMethods access = new WebsiteMethods();
+           DataMethods data = new DataMethods();
 
            Document document = ebay.getText("https://www.ebay.com/sch/i.html?_dcat=183454&_fsrp=1&LH_Auction=1&rt=nc&_from=R40&LH_TitleDesc=0&Grade=6%7C6%252E5%7C7%7C7%252E5%7C8%7C8%252E5%7C9%7C9%252E5%7C!%7C10&_ipg=200&Graded=Yes%7C!&Language=English%7C!&_nkw=1st+edition+pokemon+psa&_sacat=0&_sop=1&_udhi=1000", "filename");
 //           Document document = Jsoup.parse(new File("filename.txt"), "utf-8");
@@ -16,7 +17,7 @@ public class EbayMain {
 
            ebay.SortItems(null, document, "\" _sp=\"p2351460.m1686.l7400\" class=\"s-item__link\" href=\"", 56, "\"><h3 class", "urls");
 
-           ebay.ItemInfo("itemprop=\"price\" content=\"", 26, "\">", access.fileToList("urls"));
+           ArrayList<String> cost = ebay.ItemInfo("itemprop=\"price\" content=\"", 26, "\">", access.fileToList("urls"));
 
            System.out.println("ebay Check");
            ArrayList<String> cardList = access.fileToList("cardList");
@@ -30,6 +31,11 @@ public class EbayMain {
            ArrayList<String[][]> result = access.SearchItems(searchTerms);
            System.out.println("final check");
 
+           ArrayList<String> deals = data.SortData(result, cost);
+
+           for (String a: deals){
+               System.out.println(a);
+           }
 //           System.out.println(result);
 
 

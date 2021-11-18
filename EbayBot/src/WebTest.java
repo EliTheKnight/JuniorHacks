@@ -16,5 +16,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class WebTest {
+    public static void main(String[] args) {
+
+    }
 
 }
