@@ -36,7 +36,6 @@ public class EbayMain {
            for (String a: deals){
                System.out.println(a);
            }
-//           System.out.println(result);
 
 
         }catch (Exception e){e.printStackTrace();}

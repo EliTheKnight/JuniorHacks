@@ -72,6 +72,12 @@ public class WebsiteMethods {
                 foundCard = list.get(0).toString();
             }
 
+            if (foundCard.toLowerCase().contains("holo") && (searchTerm.toLowerCase().contains("holo") == false)){
+                if (list.size()>1){
+                    foundCard = list.get(1).toString();
+                }
+            }
+
         }catch (Exception e){e.printStackTrace();}
         if (foundCard.length()>1) {
             foundCard = foundCard.substring(foundCard.indexOf("/Ca"), foundCard.indexOf("\">]"));
@@ -385,7 +391,7 @@ public class WebsiteMethods {
                             search = search + " " + words.get(i);
                         }
 
-                        if (words.get(i).equalsIgnoreCase("holo") || words.get(i).equalsIgnoreCase("1st")){
+                        if ((words.get(i).equalsIgnoreCase("holo") && (i == 0 || words.get(i-1).equalsIgnoreCase("non") == false) )|| words.get(i).equalsIgnoreCase("1st")){
                             search = search + " " + words.get(i);
                         }
                     }

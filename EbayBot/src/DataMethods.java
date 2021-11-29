@@ -1,5 +1,4 @@
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,12 +31,12 @@ public class DataMethods {
 
             double totalPrice = 0;
             for (int a = 0; a < index.size(); a++){
-                String replace = array[a][2];
-                if (array[a][2].contains(",")){replace = replace.substring(0,replace.indexOf(",")) + replace.substring(replace.indexOf(",")+1);}
+                String replace = array[index.get(a)][2];
+                if (array[index.get(a)][2].contains(",")){replace = replace.substring(0,replace.indexOf(",")) + replace.substring(replace.indexOf(",")+1);}
                 totalPrice = totalPrice + Double.parseDouble(replace);
             }
             double averagePrice = totalPrice/index.size();
-            if (cost.get(i) != null && Double.parseDouble(cost.get(i))<averagePrice) {
+            if (cost.get(i) != null && Double.parseDouble(cost.get(i))*1.5<averagePrice) {
                 ArrayList<String> list = fileToList("list");
                 ArrayList<String> urls = fileToList("urls");
                 output.add("Current Price: " + cost.get(i) + "  ,  " + "Recent Price: " + averagePrice + ";   " + list.get(i) + "   ,   " + urls.get(i));
