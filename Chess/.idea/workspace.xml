@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0fca9ae9-0756-420b-901c-c3a3d23e0434" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Chess.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackBishop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackKing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackKnight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackPawn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackQueen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackRook.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/Blank.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteBishop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteKing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteKnight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/WhitePawn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteQueen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteRook.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/ChessMain.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Chess/Piece.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ChessBoard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ChessMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SnakeGame/SnakeGame.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SnakeGame/src/Snake.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SnakeGame/src/SnakeMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SnakeGame/src/SnakePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/Sets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/Sets.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/cardList.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/cardList.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/filename.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/filename.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/grades.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/grades.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/list.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/WebsiteMethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/WebsiteMethods.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/src/WebsiteMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/src/WebsiteMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/urls.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/urls.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="21vPVPATUoYQsYjtT0j8a25DPAr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RunManager">
+    <configuration name="ChessMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ChessMain" />
+      <module name="Chess" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ChessMain" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0fca9ae9-0756-420b-901c-c3a3d23e0434" name="Changes" comment="" />
+      <created>1638818612720</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1638818612720</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

@@ -391,8 +391,11 @@ public class WebsiteMethods {
                             search = search + " " + words.get(i);
                         }
 
-                        if ((words.get(i).equalsIgnoreCase("holo") && (i == 0 || words.get(i-1).equalsIgnoreCase("non") == false) )|| words.get(i).equalsIgnoreCase("1st")){
+                        if ((words.get(i).equalsIgnoreCase("holo") && (i == 0 || words.get(i-1).equalsIgnoreCase("non") == false) )){
                             search = search + " " + words.get(i);
+                        }
+                        if (words.get(i).equalsIgnoreCase("1st")){
+                            search = search + " 1st edition";
                         }
                     }
                 searchTerms.add(search);
