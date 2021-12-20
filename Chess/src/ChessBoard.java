@@ -4,23 +4,23 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.util.ArrayList;
 
 public class ChessBoard extends JPanel {
 
-    public static int[] square;
+    public Boards squares;
+    public int[] square;
     public static ArrayList<Image> sprites;
     public static Image blackbishop, blackking, blackknight, blackpawn, blackqueen, blackrook, whitebishop, whiteking, whiteknight, whitepawn, whitequeen, whiterook, blank;
-    public ImageObserver observer;
+    public static int selectedPiece, startSquare, pressedPiece;
 
-    public int selectedPiece, startSquare;
     public int mouseX, mouseY;
     public boolean whiteMove;
 
     public ChessBoard(int width, int height) {
-        whiteMove = true;
+        whiteMove = false;
+        pressedPiece = 0;
         setSize(width, height);
         selectedPiece = 0;
         startSquare = 0;
@@ -28,11 +28,12 @@ public class ChessBoard extends JPanel {
         mouseY = 0;
         square = new int[64];
         sprites = new ArrayList<>();
+
+        square[32] = Piece.black | Piece.king;
         square[0] = Piece.black | Piece.rook;
         square[8] = Piece.black | Piece.knight;
         square[16] = Piece.black | Piece.bishop;
         square[24] = Piece.black | Piece.queen;
-        square[32] = Piece.black | Piece.king;
         square[40] = Piece.black | Piece.bishop;
         square[48] = Piece.black | Piece.knight;
         square[56] = Piece.black | Piece.rook;
@@ -61,6 +62,8 @@ public class ChessBoard extends JPanel {
         square[46] = Piece.white | Piece.pawn;
         square[54] = Piece.white | Piece.pawn;
         square[62] = Piece.white | Piece.pawn;
+
+        squares = new Boards(square, false);
 
         try {
             blank = ImageIO.read(new File("./ChessSprites/Blank.png"));
@@ -105,7 +108,7 @@ public class ChessBoard extends JPanel {
             e.printStackTrace();
         }
 
-        observer = (img, infoflags, x, y, width1, height1) -> false;
+        squares.switchMove();
         setupMouseListener();
         repaint();
     }
@@ -121,9 +124,8 @@ public class ChessBoard extends JPanel {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                repaint();
-
             }
+
         });
     }
 
@@ -135,15 +137,19 @@ public class ChessBoard extends JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                mouseX = e.getX();
+                mouseY = e.getY();
                 int r = e.getX() / 96;
                 int f = e.getY() / 96;
-                int pressedPiece = square[r*8+f];
-                if (whiteMove && pressedPiece < 16 && pressedPiece != 0)
-                selectedPiece = pressedPiece;
-                startSquare = r * 8 + f;
-                square[r * 8 + f] = 0;
-                setupMouseMotionListener();
-                repaint();
+
+                pressedPiece = squares.getSquares()[r*8+f];
+
+                if (squares.getMove() && pressedPiece < 16 && pressedPiece != 0) {
+                    selectedPiece = squares.getSquares()[r*8+f];
+                    startSquare = r * 8 + f;
+                    setupMouseMotionListener();
+                    repaint();
+                }
             }
 
             @Override
@@ -152,169 +158,43 @@ public class ChessBoard extends JPanel {
                 int f = e.getY() / 96;
                 int drop = r * 8 + f;
 
-//                if (selectedPiece == 0){return;}
-//                else if (selectedPiece>16){
-//                    if (selectedPiece % 8 == 1){
-//                        boolean legal = legalPawnMove(drop);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                        return;
-//
-//                    }
-//                    if (selectedPiece % 8 == 2){
-//                        boolean legal = legalBishopMove(drop);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                        return;
-//                    }
-//                    if (selectedPiece % 8 == 3){
-//                        boolean legal = legalKnightMove(drop);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                        return;
-//                    }
-//                    if (selectedPiece % 8 == 4){
-//                        boolean legal = legalRookMove(drop, r, f);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                        return;
-//                    }
-//                    if (selectedPiece % 8 == 5){
-//                        boolean legal = legalQueenMove(drop, r, f);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                        return;
-//                    }
-//                    if (selectedPiece % 8 == 6){
-//                        boolean legal = legalKingMove(drop);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                    }
-//                }
-//                else{
-//                    if (selectedPiece % 8 == 1){
-//                        boolean legal = legalPawnMove(drop);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                            selectedPiece = 0;
-//                            repaint();
-//                            return;}
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                            selectedPiece = 0;
-//                            repaint();
-//                            return;
-//                        }
-//                    }
-//                    if (selectedPiece % 8 == 2){
-//                        boolean legal = legalBishopMove(drop);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                        return;
-//                    }
-//                    if (selectedPiece % 8 == 3){
-//                        boolean legal = legalKnightMove(drop);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                        return;
-//                    }
-//                    if (selectedPiece % 8 == 4){
-//                        boolean legal = legalRookMove(drop, r, f);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                        return;
-//                    }
-//                    if (selectedPiece % 8 == 5){
-//                        boolean legal = legalQueenMove(drop, r, f);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                        return;
-//                    }
-//                    if (selectedPiece % 8 == 6){
-//                        boolean legal = legalKingMove(drop);
-//                        if (legal){
-//                            square[drop] = selectedPiece;
-//                        }
-//                        else{
-//                            square[startSquare] = selectedPiece;
-//                        }
-//                        selectedPiece = 0;
-//                        repaint();
-//                    }
-//                }
-
-                boolean legal = isLegalMove(drop, r, f);
-
-                if (legal) {
-                    square[drop] = selectedPiece;
+                if (squares.getMove() && selectedPiece > 16){
                     selectedPiece = 0;
-                    repaint();
-                } else {
-                    square[startSquare] = selectedPiece;
+                    return;}
+                if (!squares.getMove() && selectedPiece < 16 && selectedPiece != 0) {
                     selectedPiece = 0;
-                    repaint();
+                    return;}
+
+                boolean legal = false;
+                ArrayList<Move> moves = squares.generateMoves();
+                ArrayList<Move> legalMoves = clearChecks(moves);
+                Move thisMove = buildMove(selectedPiece, startSquare, drop);
+
+                for (Move moo: legalMoves){
+                    if (thisMove.getPiece() == moo.getPiece() && thisMove.getStart() == moo.getStart() && thisMove.getEnd() == moo.getEnd()){
+                        legal = true;
+                        break;
+                    }
                 }
 
+                if (legal) {
+                    if ((thisMove.getPiece() == 9 && thisMove.getEnd() % 8 == 0) || (thisMove.getEnd() == 17 && thisMove.getEnd() % 8 == 7)) {
+                        JOptionPane promotion = new JOptionPane();
+                        squares.makeMove(thisMove.getPiece(), thisMove.getStart(), thisMove.getEnd(), true, promotion.getName());
+                    }
+                    else {
+                        squares.makeMove(thisMove.getPiece(), thisMove.getStart(), thisMove.getEnd());
+                    }
+                    repaint();
+                    ArrayList<Move> compMoves = squares.generateMoves();
+                    ArrayList<Move> compLegalMoves = clearChecks(compMoves);
+                    Move move = compLegalMoves.get((int)(Math.random() * compLegalMoves.size()));
+                    squares.makeMove(move.getPiece(), move.getStart(), move.getEnd());
+                } else {
+                    squares.getSquares()[startSquare] = selectedPiece;
+                }
+                selectedPiece = 0;
+                repaint();
             }
 
             @Override
@@ -324,227 +204,49 @@ public class ChessBoard extends JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
             }
+
         });
     }
 
-    public boolean isLegalMove(int drop, int r, int f) {
-        if (selectedPiece == 0) {
-            return false;
-        }
-        if (r > 7 || f > 7 || r < 0 || f < 0) {
-            return false;
-        }
-        if (selectedPiece % 8 == 1) {
-            return legalPawnMove(drop);
-        }
-        if (selectedPiece % 8 == 2) {
-            return legalBishopMove(drop);
-        }
-        if (selectedPiece % 8 == 3) {
-            return legalKnightMove(drop);
-        }
-        if (selectedPiece % 8 == 4) {
-            return legalRookMove(drop, r, f);
-        }
-        if (selectedPiece % 8 == 5) {
-            return legalQueenMove(drop, r, f);
-        }
-        if (selectedPiece % 8 == 6) {
-            return legalKingMove(drop);
-        }
-        return false;
-    }
+    //TODO: if i click a piece and then click a squares.getSquares(), the piece disappears, I think it's a startsquare not being cleared issue
 
-    public boolean legalPawnMove(int drop) {
-        if (selectedPiece > 16) {
-            if (drop == startSquare + 2) {
-                if (startSquare % 8 == 1 && square[startSquare + 1] == 0 && square[drop] == 0) {
-                    return true;
-                }
-            }
-            if (drop == startSquare + 1) {
-                if (square[drop] == 0) {
-                    return true;
-                }
-            }
-            if (drop == startSquare - 7 || drop == startSquare + 9) {
-                return square[drop] > 0 && square[drop] < 16;
-            }
-        } else {
-            if (drop == startSquare - 2 && square[startSquare - 1] == 0 && square[drop] == 0) {
-                if (startSquare % 8 == 6) {
-                    return true;
-                }
-            }
-            if (drop == startSquare - 1) {
-                if (square[drop] == 0) {
-                    return true;
-                }
-            }
-            if (drop == startSquare + 7 || drop == startSquare - 9) {
-                return square[drop] > 16;
-            }
-        }
-        return false;
-    }
+    public ArrayList<Move> clearChecks(ArrayList<Move> pseudoLegalMoves){
 
-    public boolean legalBishopMove(int drop) {
-        if (selectedPiece > 16) {
-            if (square[drop] > 16) {
-                return false;
-            }
-            if (drop % 7 == startSquare % 7) {
-                if (drop > startSquare) {
-                    for (int i = startSquare + 7; i < drop; i += 7) {
-                        if (square[i] != 0) {
-                            return false;
-                        }
-                    }
-                }
-                if (drop < startSquare) {
-                    for (int i = startSquare - 7; i > drop; i -= 7) {
-                        if (square[i] != 0) {
-                            return false;
-                        }
-                    }
-                }
-            } else if (drop % 9 == startSquare % 9) {
-                if (drop > startSquare) {
-                    for (int i = startSquare + 9; i < drop; i += 9) {
-                        if (square[i] != 0) {
-                            return false;
-                        }
-                    }
-                }
-                if (drop < startSquare) {
-                    for (int i = startSquare - 9; i > drop; i -= 9) {
-                        if (square[i] != 0) {
-                            return false;
-                        }
-                    }
-                }
-            } else {
-                return false;
-            }
-        } else {
-            if (square[drop] < 16 && square[drop] > 0) {
-                return false;
-            }
-            if (drop % 7 == startSquare % 7) {
-                if (drop > startSquare) {
-                    for (int i = startSquare + 7; i < drop; i += 7) {
-                        if (square[i] != 0) {
-                            return false;
-                        }
-                    }
-                }
-                if (drop < startSquare) {
-                    for (int i = startSquare - 7; i > drop; i -= 7) {
-                        if (square[i] != 0) {
-                            return false;
-                        }
-                    }
-                }
-            } else if (drop % 9 == startSquare % 9) {
-                if (drop > startSquare) {
-                    for (int i = startSquare + 9; i < drop; i += 9) {
-                        if (square[i] != 0) {
-                            return false;
-                        }
-                    }
-                }
-                if (drop < startSquare) {
-                    for (int i = startSquare - 9; i > drop; i -= 9) {
-                        if (square[i] != 0) {
-                            return false;
-                        }
-                    }
-                }
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
+        Boards board = new Boards(squares.getSquares(), squares.getTakenPieces(), squares.getMove());
 
-    public boolean legalKnightMove(int drop) {
-        if (selectedPiece > 16) {
-            if (square[drop] > 16) {
-                return false;
-            }
-        } else {
-            if (square[drop] < 16 && square[drop] > 0) {
-                return false;
-            }
-        }
-        return drop == startSquare + 6 || drop == startSquare - 6 || drop == startSquare + 10 || drop == startSquare - 10 || drop == startSquare + 15 || drop == startSquare - 15 || drop == startSquare + 17 || drop == startSquare - 17;
-    }
+        for (int i = 0; i<pseudoLegalMoves.size(); i++){
 
-    public boolean legalRookMove(int drop, int r, int f) {
-        int rank = startSquare / 8;
-        int file = startSquare % 8;
-        if (selectedPiece > 16) {
-            if (square[drop] > 16) {
-                return false;
-            }
-        } else {
-            if (square[drop] < 16 && square[drop] > 0) {
-                return false;
-            }
-        }
-        if (r != rank && f != file) {
-            return false;
-        }
-        if (rank == r) {
-            if (file > f) {
-                for (int i = f; i < file; i++) {
-                    if (square[r * 8 + i] != 0 && r * 8 + i != drop) {
-                        return false;
-                    }
-                }
-            }
-            if (file < f) {
-                for (int i = file; i < f; i++) {
-                    if (square[r * 8 + i] != 0 && r * 8 + i != drop) {
-                        return false;
-                    }
-                }
-            }
-        }
-        if (file == f) {
-            if (rank > r) {
-                for (int i = r; i < rank; i++) {
-                    if (square[i * 8 + f] != 0 && i * 8 + f != drop) {
-                        return false;
-                    }
-                }
-            }
-            if (rank < r) {
-                for (int i = rank; i < r; i++) {
-                    if (square[i * 8 + f] != 0 && i * 8 + f != drop) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
+            board.setSquares(squares.getSquares());
+            board.setTakenPieces(squares.getTakenPieces());
+            board.setWhiteMove(squares.getMove());
 
-    public boolean legalQueenMove(int drop, int r, int f) {
-        return legalRookMove(drop, r, f) || legalBishopMove(drop);
-    }
+            board.makeMove(pseudoLegalMoves.get(i).getPiece(), pseudoLegalMoves.get(i).getStart(), pseudoLegalMoves.get(i).getEnd());
 
-    public boolean legalKingMove(int drop) {
-        if (selectedPiece > 16) {
-            if (square[drop] > 16) {
-                return false;
-            }
-        } else {
-            if (square[drop] < 16 && square[drop] > 0) {
-                return false;
+            Boards madeMove = new Boards(board.getSquares(), board.getMove());
+
+            ArrayList<Move> a = board.generateMoves();
+
+            for (Move b: a){
+                madeMove.setSquares(board.getSquares());
+                madeMove.setWhiteMove(board.getMove());
+
+                madeMove.makeMove(b.getPiece(), b.getStart(), b.getEnd());
+
+                if ((!madeMove.getMove() && board.getSquares()[b.getEnd()] == 22) || (madeMove.getMove() && board.getSquares()[b.getEnd()] == 14)){
+                    System.out.println(pseudoLegalMoves.get(i).getPiece() + " " + pseudoLegalMoves.get(i).getStart() + " " + pseudoLegalMoves.get(i).getEnd());
+                    pseudoLegalMoves.remove(i);
+                    i--;
+                    break;
+                }
             }
         }
-        return drop == startSquare + 1 || drop == startSquare - 1 || drop == startSquare + 7 || drop == startSquare - 7 || drop == startSquare + 8 || drop == startSquare - 8 || drop == startSquare + 9 || drop == startSquare - 9;
+
+//        for (Move m: pseudoLegalMoves){
+//            System.out.println(m.getPiece() + " " + m.getStart() + " " + m.getEnd());
+//        }
+        System.out.println();
+
+        return pseudoLegalMoves;
     }
 
     @Override
@@ -553,31 +255,29 @@ public class ChessBoard extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         Color brown = new Color(59, 32, 3, 255);
         int l = 96;
-        for (int r = 0; r < 8; r++) {
-            for (int f = 0; f < 8; f++) {
+
+        //draw board
+        squares.drawBoard(g2, sprites);
+
+        //draw selectedPiece
+        if (selectedPiece != 0) {
+            if (squares.getMove() && selectedPiece < 16) {
+                int f = startSquare % 8;
+                int r = startSquare/ 8;
                 if ((f + r) % 2 == 0) {
                     g2.setColor(Color.WHITE);
                 } else {
                     g2.setColor(brown);
                 }
-
                 g2.fillRect((r * l), (f * l), l, l);
-
+                g2.drawImage(sprites.get(selectedPiece), mouseX - l / 2, mouseY - l / 2, l, l, null);
             }
         }
+    }
 
-        for (int r = 0; r < 8; r++) {
-            for (int f = 0; f < 8; f++) {
-                if (square[(r * 8 + f)] == 0) {
-                    continue;
-                }
-
-                g2.drawImage(sprites.get(square[r * 8 + f]), r * l, f * l, l, l, observer);
-            }
-        }
-
-        if (selectedPiece != 0)
-            g2.drawImage(sprites.get(selectedPiece), mouseX - l / 2, mouseY - l / 2, l, l, observer);
+    public Move buildMove(int piece, int start, int end){
+        Move move = new Move(piece,start,end);
+        return move;
     }
 
 }

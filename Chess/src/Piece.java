@@ -10,7 +10,6 @@ public class Piece {
     public static final int black = 16, white = 8;
 
     public Piece(){
-
     }
 
 }

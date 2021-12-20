@@ -2,51 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0fca9ae9-0756-420b-901c-c3a3d23e0434" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chess.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackBishop.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackKing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackKnight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackPawn.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackQueen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/BlackRook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/Blank.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteBishop.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteKing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteKnight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/WhitePawn.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteQueen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChessSprites/WhiteRook.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Chess/ChessMain.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Chess/Piece.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ChessBoard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ChessMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SnakeGame/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SnakeGame/SnakeGame.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SnakeGame/src/Snake.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SnakeGame/src/SnakeMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SnakeGame/src/SnakePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/Sets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/Sets.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/cardList.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/cardList.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/filename.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/filename.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/grades.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/grades.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/list.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/WebsiteMethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/WebsiteMethods.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/src/WebsiteMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/src/WebsiteMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/urls.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/urls.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Boards.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/JOptionPane.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Piece.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChessBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
