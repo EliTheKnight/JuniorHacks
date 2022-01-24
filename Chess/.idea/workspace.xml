@@ -2,16 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0fca9ae9-0756-420b-901c-c3a3d23e0434" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Boards.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/JOptionPane.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Move.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/Boards.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Boards.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Piece.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/JOptionPane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/JOptionPane.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/Move.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Move.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Boards.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Boards.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChessBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/JOptionPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JOptionPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Move.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

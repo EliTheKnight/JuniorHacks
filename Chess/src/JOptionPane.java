@@ -22,4 +22,17 @@ public class JOptionPane extends JComponent implements Accessible {
         return name.toLowerCase();
     }
 
+    public int getPiece(){
+        if (name.equals("Queen"))
+            return 5;
+        if (name.equals("Rook"))
+            return 4;
+        if (name.equals("Bishop"))
+            return 2;
+        if (name.equals("Knight"))
+            return 3;
+
+        return 0;
+    }
+
 }

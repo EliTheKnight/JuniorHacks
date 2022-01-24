@@ -4,17 +4,18 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Console;
 import java.io.File;
 import java.util.ArrayList;
 
 public class ChessBoard extends JPanel {
+
 
     public Boards squares;
     public int[] square;
     public static ArrayList<Image> sprites;
     public static Image blackbishop, blackking, blackknight, blackpawn, blackqueen, blackrook, whitebishop, whiteking, whiteknight, whitepawn, whitequeen, whiterook, blank;
     public static int selectedPiece, startSquare, pressedPiece;
-
     public int mouseX, mouseY;
     public boolean whiteMove;
 
@@ -63,7 +64,38 @@ public class ChessBoard extends JPanel {
         square[54] = Piece.white | Piece.pawn;
         square[62] = Piece.white | Piece.pawn;
 
-        squares = new Boards(square, false);
+
+//        square[40] = Piece.black | Piece.king;
+//        square[0] = Piece.black | Piece.rook;
+//        square[8] = Piece.black | Piece.knight;
+//        square[16] = Piece.black | Piece.bishop;
+//        square[24] = Piece.black | Piece.queen;
+//        square[56] = Piece.black | Piece.rook;
+//        square[1] = Piece.black | Piece.pawn;
+//        square[9] = Piece.black | Piece.pawn;
+//        square[18] = Piece.black | Piece.pawn;
+//        square[25] = Piece.white | Piece.pawn;
+//        square[33] = Piece.black | Piece.bishop;
+//        square[41] = Piece.black | Piece.pawn;
+//        square[49] = Piece.black | Piece.pawn;
+//        square[57] = Piece.black | Piece.pawn;
+//
+//        square[7] = Piece.white | Piece.rook;
+//        square[15] = Piece.white | Piece.knight;
+//        square[23] = Piece.white | Piece.bishop;
+//        square[31] = Piece.white | Piece.queen;
+//        square[39] = Piece.white | Piece.king;
+//        square[20] = Piece.white | Piece.bishop;
+//        square[38] = Piece.white | Piece.knight;
+//        square[63] = Piece.white | Piece.rook;
+//        square[6] = Piece.white | Piece.pawn;
+//        square[14] = Piece.white | Piece.pawn;
+//        square[22] = Piece.white | Piece.pawn;
+//        square[46] = Piece.black | Piece.knight;
+//        square[54] = Piece.white | Piece.pawn;
+//        square[62] = Piece.white | Piece.pawn;
+
+        squares = new Boards(square, false, true, true, true, true, new ArrayList<Move>());
 
         try {
             blank = ImageIO.read(new File("./ChessSprites/Blank.png"));
@@ -108,8 +140,14 @@ public class ChessBoard extends JPanel {
             e.printStackTrace();
         }
 
+        start();
+
+    }
+
+    public void start(){
         squares.switchMove();
-        setupMouseListener();
+        squares.moveGenerationTest(4);
+//        setupMouseListener();
         repaint();
     }
 
@@ -150,6 +188,12 @@ public class ChessBoard extends JPanel {
                     setupMouseMotionListener();
                     repaint();
                 }
+                else if (!squares.getMove() && pressedPiece > 16){
+                    selectedPiece = squares.getSquares()[r*8+f];
+                    startSquare = r * 8 + f;
+                    setupMouseMotionListener();
+                    repaint();
+                }
             }
 
             @Override
@@ -165,34 +209,8 @@ public class ChessBoard extends JPanel {
                     selectedPiece = 0;
                     return;}
 
-                boolean legal = false;
-                ArrayList<Move> moves = squares.generateMoves();
-                ArrayList<Move> legalMoves = clearChecks(moves);
-                Move thisMove = buildMove(selectedPiece, startSquare, drop);
+                turn(selectedPiece, startSquare, drop);
 
-                for (Move moo: legalMoves){
-                    if (thisMove.getPiece() == moo.getPiece() && thisMove.getStart() == moo.getStart() && thisMove.getEnd() == moo.getEnd()){
-                        legal = true;
-                        break;
-                    }
-                }
-
-                if (legal) {
-                    if ((thisMove.getPiece() == 9 && thisMove.getEnd() % 8 == 0) || (thisMove.getEnd() == 17 && thisMove.getEnd() % 8 == 7)) {
-                        JOptionPane promotion = new JOptionPane();
-                        squares.makeMove(thisMove.getPiece(), thisMove.getStart(), thisMove.getEnd(), true, promotion.getName());
-                    }
-                    else {
-                        squares.makeMove(thisMove.getPiece(), thisMove.getStart(), thisMove.getEnd());
-                    }
-                    repaint();
-                    ArrayList<Move> compMoves = squares.generateMoves();
-                    ArrayList<Move> compLegalMoves = clearChecks(compMoves);
-                    Move move = compLegalMoves.get((int)(Math.random() * compLegalMoves.size()));
-                    squares.makeMove(move.getPiece(), move.getStart(), move.getEnd());
-                } else {
-                    squares.getSquares()[startSquare] = selectedPiece;
-                }
                 selectedPiece = 0;
                 repaint();
             }
@@ -208,45 +226,63 @@ public class ChessBoard extends JPanel {
         });
     }
 
-    //TODO: if i click a piece and then click a squares.getSquares(), the piece disappears, I think it's a startsquare not being cleared issue
+    public void turn(int piece, int start, int end){
+//        compGame(piece, start, end);
+        playerGame(piece,start,end);
+    }
 
-    public ArrayList<Move> clearChecks(ArrayList<Move> pseudoLegalMoves){
-
-        Boards board = new Boards(squares.getSquares(), squares.getTakenPieces(), squares.getMove());
-
-        for (int i = 0; i<pseudoLegalMoves.size(); i++){
-
-            board.setSquares(squares.getSquares());
-            board.setTakenPieces(squares.getTakenPieces());
-            board.setWhiteMove(squares.getMove());
-
-            board.makeMove(pseudoLegalMoves.get(i).getPiece(), pseudoLegalMoves.get(i).getStart(), pseudoLegalMoves.get(i).getEnd());
-
-            Boards madeMove = new Boards(board.getSquares(), board.getMove());
-
-            ArrayList<Move> a = board.generateMoves();
-
-            for (Move b: a){
-                madeMove.setSquares(board.getSquares());
-                madeMove.setWhiteMove(board.getMove());
-
-                madeMove.makeMove(b.getPiece(), b.getStart(), b.getEnd());
-
-                if ((!madeMove.getMove() && board.getSquares()[b.getEnd()] == 22) || (madeMove.getMove() && board.getSquares()[b.getEnd()] == 14)){
-                    System.out.println(pseudoLegalMoves.get(i).getPiece() + " " + pseudoLegalMoves.get(i).getStart() + " " + pseudoLegalMoves.get(i).getEnd());
-                    pseudoLegalMoves.remove(i);
-                    i--;
-                    break;
-                }
+    public void playerGame(int piece, int start, int end){
+        boolean legal = false;
+        ArrayList<Move> moves = squares.movesNoCheck();
+        Move thisMove = buildMove(piece, start, end);
+        if ((piece == 9 && end % 8 == 0) || (piece == 17 && end % 8 == 7)){
+            legal = true;
+            JOptionPane promotion = new JOptionPane();
+            thisMove = new Move(promotion.getPiece()+8, start, end);
+        }
+        for (Move moo: moves){
+            if (thisMove.equalsMove(moo)){
+                legal = true;
+                thisMove = moo;
+                break;
             }
         }
 
-//        for (Move m: pseudoLegalMoves){
-//            System.out.println(m.getPiece() + " " + m.getStart() + " " + m.getEnd());
-//        }
-        System.out.println();
+        if (legal) {
+            squares.makeMove(thisMove);
+            repaint();
+        } else {
+            squares.getSquares()[start] = piece;
+        }
+    }
 
-        return pseudoLegalMoves;
+    public void compGame(int piece, int start, int end){
+        boolean legal = false;
+        ArrayList<Move> moves = squares.movesNoCheck();
+        Move thisMove = buildMove(piece, start, end);
+        if ((piece == 9 && end % 8 == 0) || (piece == 17 && end % 8 == 7)){
+            legal = true;
+            JOptionPane promotion = new JOptionPane();
+            thisMove = new Move(promotion.getPiece()+8, start, end);
+        }
+        for (Move moo: moves){
+            if (thisMove.equalsMove(moo)){
+                legal = true;
+                thisMove = moo;
+                break;
+            }
+        }
+
+        if (legal) {
+            squares.makeMove(thisMove);
+            repaint();
+            ArrayList<Move> compMoves = squares.movesNoCheck();
+            Move move = compMoves.get((int)(Math.random() * compMoves.size()));
+//                    Move move = squares.bestMove(compMoves, squares);
+            squares.makeMove(move);
+        } else {
+            squares.getSquares()[start] = piece;
+        }
     }
 
     @Override
@@ -261,7 +297,6 @@ public class ChessBoard extends JPanel {
 
         //draw selectedPiece
         if (selectedPiece != 0) {
-            if (squares.getMove() && selectedPiece < 16) {
                 int f = startSquare % 8;
                 int r = startSquare/ 8;
                 if ((f + r) % 2 == 0) {
@@ -271,7 +306,6 @@ public class ChessBoard extends JPanel {
                 }
                 g2.fillRect((r * l), (f * l), l, l);
                 g2.drawImage(sprites.get(selectedPiece), mouseX - l / 2, mouseY - l / 2, l, l, null);
-            }
         }
     }
 
