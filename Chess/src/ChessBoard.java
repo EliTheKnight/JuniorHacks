@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.Console;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -30,72 +29,10 @@ public class ChessBoard extends JPanel {
         square = new int[64];
         sprites = new ArrayList<>();
 
-        square[32] = Piece.black | Piece.king;
-        square[0] = Piece.black | Piece.rook;
-        square[8] = Piece.black | Piece.knight;
-        square[16] = Piece.black | Piece.bishop;
-        square[24] = Piece.black | Piece.queen;
-        square[40] = Piece.black | Piece.bishop;
-        square[48] = Piece.black | Piece.knight;
-        square[56] = Piece.black | Piece.rook;
-        square[1] = Piece.black | Piece.pawn;
-        square[9] = Piece.black | Piece.pawn;
-        square[17] = Piece.black | Piece.pawn;
-        square[25] = Piece.black | Piece.pawn;
-        square[33] = Piece.black | Piece.pawn;
-        square[41] = Piece.black | Piece.pawn;
-        square[49] = Piece.black | Piece.pawn;
-        square[57] = Piece.black | Piece.pawn;
-
-        square[7] = Piece.white | Piece.rook;
-        square[15] = Piece.white | Piece.knight;
-        square[23] = Piece.white | Piece.bishop;
-        square[31] = Piece.white | Piece.queen;
-        square[39] = Piece.white | Piece.king;
-        square[47] = Piece.white | Piece.bishop;
-        square[55] = Piece.white | Piece.knight;
-        square[63] = Piece.white | Piece.rook;
-        square[6] = Piece.white | Piece.pawn;
-        square[14] = Piece.white | Piece.pawn;
-        square[22] = Piece.white | Piece.pawn;
-        square[30] = Piece.white | Piece.pawn;
-        square[38] = Piece.white | Piece.pawn;
-        square[46] = Piece.white | Piece.pawn;
-        square[54] = Piece.white | Piece.pawn;
-        square[62] = Piece.white | Piece.pawn;
-
-
-//        square[40] = Piece.black | Piece.king;
-//        square[0] = Piece.black | Piece.rook;
-//        square[8] = Piece.black | Piece.knight;
-//        square[16] = Piece.black | Piece.bishop;
-//        square[24] = Piece.black | Piece.queen;
-//        square[56] = Piece.black | Piece.rook;
-//        square[1] = Piece.black | Piece.pawn;
-//        square[9] = Piece.black | Piece.pawn;
-//        square[18] = Piece.black | Piece.pawn;
-//        square[25] = Piece.white | Piece.pawn;
-//        square[33] = Piece.black | Piece.bishop;
-//        square[41] = Piece.black | Piece.pawn;
-//        square[49] = Piece.black | Piece.pawn;
-//        square[57] = Piece.black | Piece.pawn;
-//
-//        square[7] = Piece.white | Piece.rook;
-//        square[15] = Piece.white | Piece.knight;
-//        square[23] = Piece.white | Piece.bishop;
-//        square[31] = Piece.white | Piece.queen;
-//        square[39] = Piece.white | Piece.king;
-//        square[20] = Piece.white | Piece.bishop;
-//        square[38] = Piece.white | Piece.knight;
-//        square[63] = Piece.white | Piece.rook;
-//        square[6] = Piece.white | Piece.pawn;
-//        square[14] = Piece.white | Piece.pawn;
-//        square[22] = Piece.white | Piece.pawn;
-//        square[46] = Piece.black | Piece.knight;
-//        square[54] = Piece.white | Piece.pawn;
-//        square[62] = Piece.white | Piece.pawn;
-
         squares = new Boards(square, false, true, true, true, true, new ArrayList<Move>());
+
+        // starting position:  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+        FENReader("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8 ");
 
         try {
             blank = ImageIO.read(new File("./ChessSprites/Blank.png"));
@@ -139,14 +76,21 @@ public class ChessBoard extends JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         start();
-
     }
 
     public void start(){
         squares.switchMove();
-        squares.moveGenerationTest(4);
+
+        for (int i = 1; i < 6; i++){
+            System.out.println(i);
+            long startTime = System.currentTimeMillis();
+            squares.moveGenerationTest(i, i);
+            long endTime = System.currentTimeMillis();
+            System.out.println(endTime-startTime);
+            System.out.println();
+        }
+
 //        setupMouseListener();
         repaint();
     }
@@ -234,7 +178,7 @@ public class ChessBoard extends JPanel {
     public void playerGame(int piece, int start, int end){
         boolean legal = false;
         ArrayList<Move> moves = squares.movesNoCheck();
-        Move thisMove = buildMove(piece, start, end);
+        Move thisMove = new Move(piece, start, end);
         if ((piece == 9 && end % 8 == 0) || (piece == 17 && end % 8 == 7)){
             legal = true;
             JOptionPane promotion = new JOptionPane();
@@ -259,7 +203,7 @@ public class ChessBoard extends JPanel {
     public void compGame(int piece, int start, int end){
         boolean legal = false;
         ArrayList<Move> moves = squares.movesNoCheck();
-        Move thisMove = buildMove(piece, start, end);
+        Move thisMove = new Move(piece, start, end);
         if ((piece == 9 && end % 8 == 0) || (piece == 17 && end % 8 == 7)){
             legal = true;
             JOptionPane promotion = new JOptionPane();
@@ -289,7 +233,7 @@ public class ChessBoard extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        Color brown = new Color(59, 32, 3, 255);
+        Color brown = new Color(80, 44, 6, 255);
         int l = 96;
 
         //draw board
@@ -309,9 +253,105 @@ public class ChessBoard extends JPanel {
         }
     }
 
-    public Move buildMove(int piece, int start, int end){
-        Move move = new Move(piece,start,end);
-        return move;
+    public void FENReader(String fen){
+        // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+        ArrayList<String> pieces = new ArrayList<>();
+        while (fen.contains("/")){
+            int end = fen.indexOf("/");
+            pieces.add(fen.substring(0,end));
+            fen = fen.substring(end+1);
+        }
+
+        pieces.add(fen.substring(0, fen.indexOf(" ")));
+        fen = fen.substring(fen.indexOf(" ") + 1);
+
+        while (fen.contains(" ")){
+            int end = fen.indexOf(" ");
+            pieces.add(fen.substring(0,end));
+            fen = fen.substring(end+1);
+        }
+
+        for (int i = 0; i < 8; i++) {
+            String fill = pieces.get(i);
+            for (int j = 0; j < 8; j++) {
+                int b = fill.charAt(0);
+                if (b < 62) {
+                    j += (b - 48) - 1;
+                }
+                else if (b < 95) {
+                    //if statements for b, k, n, p, q, r
+                    if (b == 66) {
+                        square[j * 8 + i] = Piece.white | Piece.bishop;
+                    } else if (b == 75) {
+                        square[j * 8 + i] = Piece.white | Piece.king;
+
+                    } else if (b == 78) {
+                        square[j * 8 + i] = Piece.white | Piece.knight;
+
+                    } else if (b == 80) {
+                        square[j * 8 + i] = Piece.white | Piece.pawn;
+
+                    } else if (b == 81) {
+                        square[j * 8 + i] = Piece.white | Piece.queen;
+
+                    } else if (b == 82) {
+                        square[j * 8 + i] = Piece.white | Piece.rook;
+                    }
+                }
+                else {
+                    //if statements for b, k, n, p, q, r
+                    if (b == 98) {
+                        square[j * 8 + i] = Piece.black | Piece.bishop;
+                    } else if (b == 107) {
+                        square[j * 8 + i] = Piece.black | Piece.king;
+
+                    } else if (b == 110) {
+                        square[j * 8 + i] = Piece.black | Piece.knight;
+
+                    } else if (b == 112) {
+                        square[j * 8 + i] = Piece.black | Piece.pawn;
+
+                    } else if (b == 113) {
+                        square[j * 8 + i] = Piece.black | Piece.queen;
+
+                    } else if (b == 114) {
+                        square[j * 8 + i] = Piece.black | Piece.rook;
+                    }
+                }
+                fill = fill.substring(1);
+            }
+        }
+        boolean whiteTurn = true;
+        if (pieces.get(8).charAt(0) == 98){
+            squares.switchMove();
+            whiteTurn = false;
+        }
+
+        String castling = pieces.get(9);
+        if (!castling.contains("K")){
+            squares.setWhiteCanSC(false);
+        }
+        if (!castling.contains("Q")){
+            squares.setWhiteCanLC(false);
+        }
+        if (!castling.contains("k")){
+            squares.setBlackCanSC(false);
+        }
+        if (!castling.contains("q")){
+            squares.setBlackCanLC(false);
+        }
+
+        String enPassant = pieces.get(10);
+        if (enPassant.equals("-")){}
+        else{
+            int r = enPassant.charAt(0) - 97;
+            int f = enPassant.charAt(1) - 48;
+            int square = r*8 + f;
+            if (whiteTurn){squares.addMoveToGame(new Move(17, square-1, square+1));}
+            else{squares.addMoveToGame(new Move(9, square+1, square-1));}
+        }
+
+        //next 2 are repeated moves and number of moves
     }
 
 }

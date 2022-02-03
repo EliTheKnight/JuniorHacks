@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Boards {
 
+    public static int numMoves = 0;
     private int[] squares;
     private boolean whiteMove, blackCanLC, blackCanSC, whiteCanLC, whiteCanSC;
     public static int pawn = 100, bishop = 300, knight = 300, rook = 500, queen = 900, king = Integer.MAX_VALUE;
@@ -24,6 +25,7 @@ public class Boards {
         int end = move.getEnd();
         switchMove();
 
+        //promotion
         if (move.getType() == 1){
             game.add(new Move(piece, start, end, true, 1, squares[end], end));
             squares[start] = 0;
@@ -44,8 +46,6 @@ public class Boards {
                 return;
             }
         }
-
-
 
         // long castle
         if((move.getType() == 4)&&((piece == 22 && blackCanLC)||(piece == 14 && whiteCanLC))){
@@ -88,7 +88,7 @@ public class Boards {
         }
 
         //en passant
-        if ((game.size() > 0) && ((game.get(game.size()-1).getPiece() == 9 && game.get(game.size()-1).getEnd() == end - 1 && game.get(game.size()-1).getEnd() == game.get(game.size()-1).getStart() - 2) || (game.get(game.size()-1).getPiece() == 17 && game.get(game.size()-1).getEnd() - 1 == end && game.get(game.size()-1).getEnd() - 2 == game.get(game.size()-1).getStart()))){
+        if ((piece % 8 == 1) && (game.size() > 0) && ((game.get(game.size()-1).getPiece() == 9 && game.get(game.size()-1).getEnd() == end - 1 && game.get(game.size()-1).getEnd() == game.get(game.size()-1).getStart() - 2) || (game.get(game.size()-1).getPiece() == 17 && game.get(game.size()-1).getEnd() - 1 == end && game.get(game.size()-1).getEnd() - 2 == game.get(game.size()-1).getStart()))){
             squares[start] = 0;
             squares[game.get(game.size()-1).getEnd()] = 0;
             squares[end] = piece;
@@ -194,107 +194,113 @@ public class Boards {
 
     public ArrayList<Move> generateMovesBlack(){
         ArrayList<Move> moves = new ArrayList<>();
-        for (int i = 0; i<64; i++){
-            if (squares[i] > 16){
-                int piece = squares[i];
-                if (piece % 8 == 1){
-                    for (int j = i-9; j <= i+9; j++){
-                        if (isLegalMove(piece, i, j)){
-                            if (j % 8 == 7){
-                                Move queen = new Move(21, i, j, true, 1, squares[j] , j);
-                                Move knight = new Move(19, i, j, true, 1, squares[j] , j);
-                                Move bishop = new Move(18, i, j, true, 1, squares[j] , j);
-                                Move rook = new Move(20, i, j, true, 1, squares[j] , j);
-                                moves.add(queen);
-                                moves.add(knight);
-                                moves.add(rook);
-                                moves.add(bishop);
-                            }
-                            else {
-                                Move move = new Move(piece, i, j);
-                                moves.add(move);
-                            }
-                        }
-                    }
-                }
-                else if (piece % 8 == 2){
-                    for (int j = i % 7; j < 64; j +=7){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    for (int j = i % 9; j < 64; j +=9){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
+        ArrayList<Piece> pieces = new ArrayList<>();
+        for (int i = 0; i < 64; i++){
+            if (squares[i] >= 16){
+                pieces.add(new Piece(squares[i], i));
+            }
+        }
+        for (Piece possible: pieces) {
+            int piece = possible.getPiece();
+            int start = possible.getSquare();
+            if (piece % 8 == 1) {
+                int[] ends = {1, 2, -7, 9};
+                for (int end: ends) {
+                    if (isLegalMove(piece, start, start + end)) {
+                        if ((start+end) % 8 == 7) {
+                            Move queen = new Move(21, start, start+end, true, 1, squares[start+end], start+end);
+                            Move knight = new Move(19, start, start+end, true, 1, squares[start+end], start+end);
+                            Move bishop = new Move(18, start, start+end, true, 1, squares[start+end], start+end);
+                            Move rook = new Move(20, start, start+end, true, 1, squares[start+end], start+end);
+                            moves.add(queen);
+                            moves.add(knight);
+                            moves.add(rook);
+                            moves.add(bishop);
+                        } else {
+                            Move move = new Move(piece, start, start+end);
                             moves.add(move);
                         }
                     }
                 }
-                else if (piece % 8 == 3){
-                    for (int j = i-17; j < 64; j ++){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                }
-                else if (piece % 8 == 4){
-                    for (int j = i % 8; j < 64; j +=8){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    for (int j = i-7; j < i+7; j ++){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                }
-                else if (piece % 8 == 5){
-                    for (int j = i % 7; j < 64; j +=7){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    for (int j = i % 9; j < 64; j +=9){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    for (int j = i % 8; j < 64; j +=8){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    int a = (i/8)*8;
-                    for (int j = a; j < a+7; j++){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                }
-                else if (piece % 8 == 6){
-                    for (int j = i-9; j <= i + 9; j ++){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    if (isLegalMove(piece, i, i+16)){
-                        Move move = new Move(piece, i, i+16, true, 2, 0, 0);
+            }
+            else if (piece % 8 == 2) {
+                for (int j = start % 7; j < 64; j += 7) {
+                    if (start/8 != j/8 && isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
                         moves.add(move);
                     }
-                    if (isLegalMove(piece, i, i-16)){
-                        Move move = new Move(piece, i, i-16, true, 2, 0, 0);
+                }
+                for (int j = start % 9; j < 64; j += 9) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
                         moves.add(move);
                     }
+                }
+            }
+            else if (piece % 8 == 3) {
+                int[] ends = {6, 10, 15, 17, -6, -10, -15, -17};
+                for (int end: ends) {
+                    if (isLegalMove(piece, start,start+end)) {
+                        Move move = new Move(piece, start, start+end);
+                        moves.add(move);
+                    }
+                }
+            }
+            else if (piece % 8 == 4) {
+                for (int j = start % 8; j < 64; j += 8) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+                for (int j = (start/8)*8; j < start + 8; j++) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+            }
+            else if (piece % 8 == 5) {
+                for (int j = start % 7; j < 64; j += 7) {
+                    if (j / 8 != start / 8 && j % 8 != start % 8 && isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+                for (int j = start % 9; j < 64; j += 9) {
+                    if (j / 8 != start / 8 && j % 8 != start % 8 && isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+                for (int j = start % 8; j < 64; j += 8) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+                for (int j = (start/8)*8; j < (start/8)*8 + 8; j++) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+            }
+            else if (piece % 8 == 6) {
+                int[] ends = {-9, -8, -7, -1, 1, 7, 8, 9};
+                for (int end: ends) {
+                    if (isLegalMove(piece, start, start+end)) {
+                        Move move = new Move(piece, start, start+end);
+                        moves.add(move);
+                    }
+                }
+                if (isLegalMove(piece, start, start + 16)) {
+                    Move move = new Move(piece, start, start + 16, true, 2, 0, 0);
+                    moves.add(move);
+                }
+                if (isLegalMove(piece, start, start - 16)) {
+                    Move move = new Move(piece, start, start - 16, true, 4, 0, 0);
+                    moves.add(move);
                 }
             }
         }
@@ -303,109 +309,115 @@ public class Boards {
 
     public ArrayList<Move> generateMovesWhite(){
         ArrayList<Move> moves = new ArrayList<>();
-        for (int i = 0; i<64; i++){
-            if (squares[i] < 16 && squares[i] != 0){
-                int piece = squares[i];
-                if (piece % 8 == 1){
-                    for (int j = i-9; j <= i+9; j++){
-                        if (isLegalMove(piece, i, j)){
-                            if (j % 8 == 0){
-                                Move queen = new Move(13, i, j, true, 1, squares[j] , j);
-                                Move knight = new Move(11, i, j, true, 1, squares[j] , j);
-                                Move bishop = new Move(10, i, j, true, 1, squares[j] , j);
-                                Move rook = new Move(12, i, j, true, 1, squares[j] , j);
-                                moves.add(queen);
-                                moves.add(knight);
-                                moves.add(bishop);
-                                moves.add(rook);
-                            }
-                            else {
-                                Move move = new Move(piece, i, j);
-                                moves.add(move);
-                            }
-                        }
-                    }
-                }
-                else if (piece % 8 == 2){
-                    for (int j = i % 7; j < 64; j +=7){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    for (int j = i % 9; j < 64; j +=9){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                }
-                else if (piece % 8 == 3){
-                    for (int j = i-17; j < 64; j ++){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                }
-                else if (piece % 8 == 4){
-                    for (int j = i % 8; j < 64; j +=8){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    for (int j = i-7; j < i+7; j ++){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                }
-                else if (piece % 8 == 5){
-                    for (int j = i % 7; j < 64; j +=7){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    for (int j = i % 9; j < 64; j +=9){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    for (int j = i % 8; j < 64; j +=8){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    int a = (i/8)*8;
-                    for (int j = a; j < a+7; j++){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                }
-                else if (piece % 8 == 6){
-                    for (int j = i-9; j <= i + 9; j ++){
-                        if (isLegalMove(piece, i, j)){
-                            Move move = new Move(piece, i, j);
-                            moves.add(move);
-                        }
-                    }
-                    if (isLegalMove(piece, i, i+16)){
-                        Move move = new Move(piece, i, i+16, true, 2, 0, 0);
-                        moves.add(move);
-                    }
-                    if (isLegalMove(piece, i, i-16)){
-                        Move move = new Move(piece, i, i-16, true, 4, 0, 0);
-                        moves.add(move);
-                    }
-                }
+        ArrayList<Piece> pieces = new ArrayList<>();
+        for (int i = 0; i < 64; i++){
+            if (squares[i] != 0 && squares[i] < 16){
+                pieces.add(new Piece(squares[i], i));
+            }
+        }
+        for (Piece possible: pieces) {
+            int piece = possible.getPiece();
+            int start = possible.getSquare();
+            if (piece % 8 == 1) {
+                int[] ends = {-1, -2, 7, -9};
+                for (int end: ends) {
+                    if (isLegalMove(piece, start, start + end)) {
 
+                        if ((start+end) % 8 == 0) {
+                            Move queen = new Move(13, start, start+end, true, 1, squares[start+end], start+end);
+                            Move knight = new Move(11, start, start+end, true, 1, squares[start+end], start+end);
+                            Move bishop = new Move(10, start, start+end, true, 1, squares[start+end], start+end);
+                            Move rook = new Move(12, start, start+end, true, 1, squares[start+end], start+end);
+                            moves.add(queen);
+                            moves.add(knight);
+                            moves.add(rook);
+                            moves.add(bishop);
+                        } else {
+                            Move move = new Move(piece, start, start+end);
+                            moves.add(move);
+                        }
+                    }
+                }
+            }
+            else if (piece % 8 == 2) {
+                for (int j = start % 7; j < 64; j += 7) {
+                    if (start/8 != j/8 && isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+                for (int j = start % 9; j < 64; j += 9) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+            }
+            else if (piece % 8 == 3) {
+                int[] ends = {6, 10, 15, 17, -6, -10, -15, -17};
+                for (int end: ends) {
+                    if (isLegalMove(piece, start,start+end)) {
+                        Move move = new Move(piece, start, start+end);
+                        moves.add(move);
+                    }
+                }
+            }
+            else if (piece % 8 == 4) {
+                for (int j = start % 8; j < 64; j += 8) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+                for (int j = (start/8)*8; j < start + 8; j++) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+            }
+            else if (piece % 8 == 5) {
+                for (int j = start % 7; j < 64; j += 7) {
+                    if (j / 8 != start / 8 && j % 8 != start % 8 && isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+                for (int j = start % 9; j < 64; j += 9) {
+                    if (j / 8 != start / 8 && j % 8 != start % 8 && isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+                for (int j = start % 8; j < 64; j += 8) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+                for (int j = (start/8)*8; j < (start/8)*8 + 8; j++) {
+                    if (isLegalMove(piece, start, j)) {
+                        Move move = new Move(piece, start, j);
+                        moves.add(move);
+                    }
+                }
+            }
+            else if (piece % 8 == 6) {
+                int[] ends = {-9, -8, -7, -1, 1, 7, 8, 9};
+                for (int end: ends) {
+                    if (isLegalMove(piece, start, start+end)) {
+                        Move move = new Move(piece, start, start+end);
+                        moves.add(move);
+                    }
+                }
+                if (isLegalMove(piece, start, start + 16)) {
+                    Move move = new Move(piece, start, start + 16, true, 2, 0, 0);
+                    moves.add(move);
+                }
+                if (isLegalMove(piece, start, start - 16)) {
+                    Move move = new Move(piece, start, start - 16, true, 4, 0, 0);
+                    moves.add(move);
+                }
             }
         }
         return moves;
@@ -598,7 +610,7 @@ public class Boards {
     }
 
     public void drawBoard(Graphics2D g2, ArrayList<Image> sprites){
-        Color brown = new Color(59, 32, 3, 255);
+        Color brown = new Color(80, 44, 6, 255);
         int l = 96;
         //draw board
         for (int r = 0; r < 8; r++) {
@@ -628,10 +640,12 @@ public class Boards {
         ArrayList<Move> pseudoLegalMoves = generateMoves();
 
         for (int i = 0; i < pseudoLegalMoves.size(); i++){
-
-            makeMove(pseudoLegalMoves.get(i));
+            Move pseudoMove = pseudoLegalMoves.get(i);
+            makeMove(pseudoMove);
             ArrayList<Move> newMoves = generateMoves();
+            int noDouble = i;
             for (Move move: newMoves){
+
                 if ((getMove() && squares[move.getEnd()] == 22) || (!getMove() && squares[move.getEnd()] == 14)){
                     pseudoLegalMoves.remove(i);
                     i--;
@@ -639,6 +653,33 @@ public class Boards {
                 }
             }
             unmakeMove();
+
+            if ((pseudoMove.getType() == 2 || pseudoMove.getType() == 4) && noDouble == i){
+                if (pseudoMove.getType() == 2){
+                    makeMove(new Move(pseudoMove.getPiece(), pseudoMove.getStart(), pseudoMove.getStart() + 8));
+                    ArrayList<Move> castleCheck = generateMoves();
+                    for (Move move1: castleCheck) {
+                        if ((getMove() && squares[move1.getEnd()] == 22) || (!getMove() && squares[move1.getEnd()] == 14)) {
+                            pseudoLegalMoves.remove(i);
+                            i--;
+                            break;
+                        }
+                    }
+                }
+                else{
+                    makeMove(new Move(pseudoMove.getPiece(), pseudoMove.getStart(), pseudoMove.getStart() - 8));
+                    ArrayList<Move> castleCheck = generateMoves();
+                    for (Move move1: castleCheck) {
+                        if ((getMove() && squares[move1.getEnd()] == 22) || (!getMove() && squares[move1.getEnd()] == 14)) {
+                            pseudoLegalMoves.remove(i);
+                            i--;
+                            break;
+                        }
+                    }
+                }
+                unmakeMove();
+            }
+
         }
 
         return pseudoLegalMoves;
@@ -750,37 +791,38 @@ public class Boards {
         return bestMove;
     }
 
-    public int moveGenerationTest(int depth){
+    public int moveGenerationTest(int depth, int startDepth){
         if (depth == 0){
             return 1;
         }
 
         ArrayList<Move> moves = movesNoCheck();
 
-        //duplicate check
-//        for (int i = 0; i < moves.size(); i++){
-//            for (int j = i+1; j < moves.size(); j++){
-//                if (moves.get(i).equalsMove(moves.get(j)))
-//                    System.out.println(moves.get(i));
-//            }
-//        }
+//        duplicate check:
 
-//        Move a = moves.get(0);
-//        if (depth == 4){
-//            moves.clear();
-//            moves.add(a);
-//        }
+        for (int i = 0; i < moves.size(); i++){
+            for (int j = i+1; j < moves.size(); j++){
+                if (moves.get(i).equalsMove(moves.get(j)))
+                    System.out.println(moves.get(i));
+            }
+        }
 
         int numPositions = 0;
 
         for (Move move: moves){
+            if (move.getPiece() % 8 == 1)
+                numMoves++;
             makeMove(move);
-            numPositions += moveGenerationTest(depth-1);
+            numPositions += moveGenerationTest(depth-1, startDepth);
             unmakeMove();
         }
+//        if (depth == startDepth - 1)
+//            System.out.println(numPositions);
 
-        if (depth == 4)
+        if (depth == startDepth){
             System.out.println(numPositions);
+//            System.out.println(numMoves);
+        }
 
         return numPositions;
     }
@@ -811,6 +853,26 @@ public class Boards {
 
     public boolean getWhiteCanSC() {
         return whiteCanSC;
+    }
+
+    public void setBlackCanLC(boolean blackCanLC) {
+        this.blackCanLC = blackCanLC;
+    }
+
+    public void setBlackCanSC(boolean blackCanSC) {
+        this.blackCanSC = blackCanSC;
+    }
+
+    public void setWhiteCanLC(boolean whiteCanLC) {
+        this.whiteCanLC = whiteCanLC;
+    }
+
+    public void setWhiteCanSC(boolean whiteCanSC) {
+        this.whiteCanSC = whiteCanSC;
+    }
+
+    public void addMoveToGame(Move move){
+        game.add(move);
     }
 
 }

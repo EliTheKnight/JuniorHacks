@@ -8,11 +8,11 @@
       <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/JOptionPane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/JOptionPane.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/Move.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Move.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Chess/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Piece.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Boards.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Boards.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChessBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/JOptionPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JOptionPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,5 +85,21 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ChessBoard.java</url>
+          <line>277</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ChessBoard.java</url>
+          <line>319</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
