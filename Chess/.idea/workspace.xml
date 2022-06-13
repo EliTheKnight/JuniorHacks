@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0fca9ae9-0756-420b-901c-c3a3d23e0434" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Chess960Perft.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/FileProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/FileTestMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MassText.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/Boards.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Boards.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChessBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/filename.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/filename.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/grades.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/grades.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/list.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/EbayMethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/EbayMethods.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/src/EbayMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/src/EbayMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/urls.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/urls.txt" afterDir="false" />
-    </list>
+    <list default="true" id="0fca9ae9-0756-420b-901c-c3a3d23e0434" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
