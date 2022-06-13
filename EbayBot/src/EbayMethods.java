@@ -14,12 +14,16 @@ public class EbayMethods {
             if (document.equals(null)){doc = Jsoup.parse(file, "utf-8");}
             int i = 0;
             String input = doc.toString();
+            boolean skip = true;
                 while (input.contains(start)) {
                     int begin = input.indexOf(start);
                     int finish = input.indexOf(end, begin);
                     String output = input.substring(begin + startLength, finish);
                     input = (input.substring(0, begin - 20) + input.substring(finish + 20));
-
+                    if (fileName.equals("list") && skip){
+                        skip = false;
+                        continue;
+                    }
                     if (output.contains("New Listing</span>")) {
                         int a = output.indexOf("</span>");
                         output = output.substring(a + 7);

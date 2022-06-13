@@ -4,11 +4,10 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 
 public class ChessBoard extends JPanel {
-
 
     public Boards squares;
     public int[] square;
@@ -31,8 +30,8 @@ public class ChessBoard extends JPanel {
 
         squares = new Boards(square, false, true, true, true, true, new ArrayList<Move>());
 
-        // starting position:  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-        FENReader("rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8 ");
+        // starting position:  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 "
+        FENReader("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - ");
 
         try {
             blank = ImageIO.read(new File("./ChessSprites/Blank.png"));
@@ -79,21 +78,91 @@ public class ChessBoard extends JPanel {
         start();
     }
 
+    public ChessBoard(int width, int height, String fen, Writer writer) {
+        whiteMove = false;
+        pressedPiece = 0;
+        setSize(width, height);
+        selectedPiece = 0;
+        startSquare = 0;
+        mouseX = 0;
+        mouseY = 0;
+        square = new int[64];
+        sprites = new ArrayList<>();
+
+        squares = new Boards(square, false, true, true, true, true, new ArrayList<Move>());
+
+        // starting position:  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 "
+        FENReader(fen);
+
+        try {
+            blank = ImageIO.read(new File("./ChessSprites/Blank.png"));
+            blackbishop = ImageIO.read(new File("./ChessSprites/BlackBishop.png"));
+            blackking = ImageIO.read(new File("./ChessSprites/BlackKing.png"));
+            blackknight = ImageIO.read(new File("./ChessSprites/BlackKnight.png"));
+            blackpawn = ImageIO.read(new File("./ChessSprites/BlackPawn.png"));
+            blackqueen = ImageIO.read(new File("./ChessSprites/BlackQueen.png"));
+            blackrook = ImageIO.read(new File("./ChessSprites/BlackRook.png"));
+            whitebishop = ImageIO.read(new File("./ChessSprites/WhiteBishop.png"));
+            whiteking = ImageIO.read(new File("./ChessSprites/WhiteKing.png"));
+            whiteknight = ImageIO.read(new File("./ChessSprites/WhiteKnight.png"));
+            whitepawn = ImageIO.read(new File("./ChessSprites/WhitePawn.png"));
+            whitequeen = ImageIO.read(new File("./ChessSprites/WhiteQueen.png"));
+            whiterook = ImageIO.read(new File("./ChessSprites/WhiteRook.png"));
+
+            sprites.add(blank);
+            sprites.add(blank);
+            sprites.add(blank);
+            sprites.add(blank);
+            sprites.add(blank);
+            sprites.add(blank);
+            sprites.add(blank);
+            sprites.add(blank);
+            sprites.add(blank);
+            sprites.add(whitepawn);
+            sprites.add(whitebishop);
+            sprites.add(whiteknight);
+            sprites.add(whiterook);
+            sprites.add(whitequeen);
+            sprites.add(whiteking);
+            sprites.add(blank);
+            sprites.add(blank);
+            sprites.add(blackpawn);
+            sprites.add(blackbishop);
+            sprites.add(blackknight);
+            sprites.add(blackrook);
+            sprites.add(blackqueen);
+            sprites.add(blackking);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        testStart(writer);
+    }
+
     public void start(){
         squares.switchMove();
 
-        for (int i = 1; i < 6; i++){
-            System.out.println(i);
-            long startTime = System.currentTimeMillis();
-            squares.moveGenerationTest(i, i);
-            long endTime = System.currentTimeMillis();
-            System.out.println(endTime-startTime);
-            System.out.println();
-        }
+//        for (int i = 1; i <= 4; i++){
+//            System.out.println(i + "  ");
+//            long startTime = System.currentTimeMillis();
+//            squares.moveGenerationTest(i, i);
+//            long endTime = System.currentTimeMillis();
+//            System.out.println(endTime-startTime);
+//        }
+//        squares.moveGenerationTest(4,4);
 
-//        setupMouseListener();
+        setupMouseListener();
         repaint();
     }
+
+//    public void testStart(Writer writer){
+//        squares.switchMove();
+//        for (int i = 1; i < 3; i++){
+//            try{
+//                writer.write(squares.massMoveGenerationTest(i, i) + "\n");
+//            }catch (Exception e){e.printStackTrace();}
+//        }
+//    }
 
     public void setupMouseMotionListener() {
         addMouseMotionListener(new MouseMotionListener() {
@@ -171,8 +240,8 @@ public class ChessBoard extends JPanel {
     }
 
     public void turn(int piece, int start, int end){
-//        compGame(piece, start, end);
-        playerGame(piece,start,end);
+        compGame(piece, start, end);
+//        playerGame(piece,start,end);
     }
 
     public void playerGame(int piece, int start, int end){
@@ -180,11 +249,12 @@ public class ChessBoard extends JPanel {
         ArrayList<Move> moves = squares.movesNoCheck();
         Move thisMove = new Move(piece, start, end);
         if ((piece == 9 && end % 8 == 0) || (piece == 17 && end % 8 == 7)){
-            legal = true;
+//            legal = true;
             JOptionPane promotion = new JOptionPane();
             thisMove = new Move(promotion.getPiece()+8, start, end);
         }
         for (Move moo: moves){
+//            System.out.println(moo);
             if (thisMove.equalsMove(moo)){
                 legal = true;
                 thisMove = moo;
@@ -221,8 +291,8 @@ public class ChessBoard extends JPanel {
             squares.makeMove(thisMove);
             repaint();
             ArrayList<Move> compMoves = squares.movesNoCheck();
-            Move move = compMoves.get((int)(Math.random() * compMoves.size()));
-//                    Move move = squares.bestMove(compMoves, squares);
+//            Move move = compMoves.get((int)(Math.random() * compMoves.size()));
+            Move move = squares.bestMove(compMoves, squares);
             squares.makeMove(move);
         } else {
             squares.getSquares()[start] = piece;
@@ -340,13 +410,11 @@ public class ChessBoard extends JPanel {
         if (!castling.contains("q")){
             squares.setBlackCanLC(false);
         }
-
         String enPassant = pieces.get(10);
-        if (enPassant.equals("-")){}
-        else{
+        if (!enPassant.equals("-")){
             int r = enPassant.charAt(0) - 97;
             int f = enPassant.charAt(1) - 48;
-            int square = r*8 + f;
+            int square = r*8 + (8-f);
             if (whiteTurn){squares.addMoveToGame(new Move(17, square-1, square+1));}
             else{squares.addMoveToGame(new Move(9, square+1, square-1));}
         }

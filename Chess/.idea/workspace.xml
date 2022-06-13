@@ -2,17 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0fca9ae9-0756-420b-901c-c3a3d23e0434" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Chess960Perft.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/FileProcessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/FileTestMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MassText.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/Boards.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Boards.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/ChessBoard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/JOptionPane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/JOptionPane.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Chess/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Chess/Piece.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Boards.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Boards.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChessBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/JOptionPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JOptionPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/filename.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/filename.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/grades.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/grades.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/list.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/EbayMethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/EbayMethods.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/src/EbayMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/src/EbayMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EbayBot/urls.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/urls.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,9 +56,16 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.ChessMain">
     <configuration name="ChessMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ChessMain" />
+      <module name="Chess" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FileTestMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="FileTestMain" />
       <module name="Chess" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -60,6 +74,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.ChessMain" />
+        <item itemvalue="Application.FileTestMain" />
       </list>
     </recent_temporary>
   </component>
@@ -85,21 +100,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ChessBoard.java</url>
-          <line>277</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ChessBoard.java</url>
-          <line>319</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
