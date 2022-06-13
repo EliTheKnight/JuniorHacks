@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c065235f-723b-4fa2-bb27-16d4998f29f8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SnakeGame.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Snake.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SnakeMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SnakePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/Sets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/Sets.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/cardList.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/cardList.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/filename.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/filename.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/grades.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/grades.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/list.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/WebsiteMethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/out/production/EbayBot/WebsiteMethods.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/psaPrices.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/searchTerms.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/src/WebsiteMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/src/WebsiteMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EbayBot/urls.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../EbayBot/urls.txt" afterDir="false" />
-    </list>
+    <list default="true" id="c065235f-723b-4fa2-bb27-16d4998f29f8" name="Changes" comment="commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,6 +40,14 @@
       <option name="presentableId" value="Default" />
       <updated>1638468195242</updated>
     </task>
+    <task id="LOCAL-00001" summary="commit">
+      <created>1655133169636</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1655133169636</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -72,5 +60,10 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit" />
   </component>
 </project>
